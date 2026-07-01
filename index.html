@@ -244,7 +244,52 @@
         <div><div class="step-title-cn">訓練教材</div><div class="step-title-en">Training Materials</div></div>
       </div>
       <div class="step-body" id="body-2">
-        <!-- Task 3 填入 -->
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:18px;">
+          請點影片右下角 <strong>YouTube</strong> 字體，進入 YouTube 網頁版即可放大觀看。請依序完整觀看全部 5 部影片。
+        </div>
+        <div class="video-grid">
+          <div class="video-item"><div class="video-label">Part 1 / 5</div>
+            <div class="video-wrap"><iframe src="https://www.youtube.com/embed/xQS0sywd4ho" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+          <div class="video-item"><div class="video-label">Part 2 / 5</div>
+            <div class="video-wrap"><iframe src="https://www.youtube.com/embed/pC4ODmiem40" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+          <div class="video-item"><div class="video-label">Part 3 / 5</div>
+            <div class="video-wrap"><iframe src="https://www.youtube.com/embed/KrmyCzlHVN4" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+          <div class="video-item"><div class="video-label">Part 4 / 5</div>
+            <div class="video-wrap"><iframe src="https://www.youtube.com/embed/EHC3t3jcIFo" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+          <div class="video-item"><div class="video-label">Part 5 / 5</div>
+            <div class="video-wrap"><iframe src="https://www.youtube.com/embed/Kb4j0zdT4pk" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>
+        </div>
+
+        <div class="field">
+          <div class="field-label"><span class="label-cn">觀看訓練教材日期</span><span class="label-en">Date of Training</span><span class="req">＊</span></div>
+          <input type="date" id="f-date" />
+          <div class="err-msg" id="err-date">請選擇觀看訓練教材日期</div>
+        </div>
+
+        <div class="field" style="margin-top:24px;">
+          <div class="field-label"><span class="label-cn">是否已確實且完整觀看【瑞昱承攬商線上教育訓練教材 1/5 – 5/5】</span><span class="req">＊</span></div>
+          <div class="radio-group inline" role="radiogroup">
+            <label class="radio-opt"><input type="radio" name="entry.1650749467" value="是" /><span class="radio-dot"></span>是</label>
+            <label class="radio-opt"><input type="radio" name="entry.1650749467" value="否" /><span class="radio-dot"></span>否</label>
+          </div>
+        </div>
+
+        <div class="agree-card">
+          <div class="agree-title">文件準備聲明</div>
+          <div class="agree-body">入廠人員同意準備以下文件，供瑞昱人員或主管機關可隨時抽查：<br>
+            1. 有效勞工保險資格<br>
+            2. 有效意外責任險或相關雇主責任險等 300 萬元（含）以上之保險證明<br>
+            3. 三年內 6 小時安全衛生教育訓練證明<br>
+            4. 法定人員或設備有效合格證照
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label"><span class="label-cn">您是否同意？</span><span class="req">＊</span></div>
+          <div class="radio-group inline" role="radiogroup">
+            <label class="radio-opt"><input type="radio" name="entry.1104087735" value="同意" /><span class="radio-dot"></span>同意</label>
+            <label class="radio-opt"><input type="radio" name="entry.1104087735" value="不同意" /><span class="radio-dot"></span>不同意</label>
+          </div>
+        </div>
       </div>
     </div>
     <div class="gate-warning" id="gate-2"></div>
@@ -338,8 +383,56 @@
     });
   });
 
+  function getRadioValue(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+
+  function validateStep2() {
+    const gate = document.getElementById('gate-2');
+    gate.classList.remove('show');
+    gate.textContent = '';
+
+    const date = document.getElementById('f-date');
+    const eDate = !date.value;
+    document.getElementById('err-date').classList.toggle('show', eDate);
+    date.classList.toggle('err', eDate);
+
+    const read  = getRadioValue('entry.1650749467');
+    const agree = getRadioValue('entry.1104087735');
+
+    // 必選檢查
+    if (eDate || !read || !agree) {
+      if (!read || !agree) {
+        gate.textContent = '請完成觀看確認與文件準備聲明後再繼續。';
+        gate.classList.add('show');
+      }
+      return false;
+    }
+
+    // gating：否 / 不同意 擋住
+    if (read === '否') {
+      gate.textContent = '您必須確實且完整觀看全部訓練教材後，選擇「是」才能繼續進行測驗。';
+      gate.classList.add('show');
+      return false;
+    }
+    if (agree === '不同意') {
+      gate.textContent = '您必須同意準備相關文件供查核，才能繼續進行測驗。';
+      gate.classList.add('show');
+      return false;
+    }
+    return true;
+  }
+
+  // 選日期時清除錯誤
+  document.getElementById('f-date').addEventListener('input', function () {
+    this.classList.remove('err');
+    document.getElementById('err-date').classList.remove('show');
+  });
+
   function attemptNext(fromStep) {
     if (fromStep === 1 && !validateStep1()) return;
+    if (fromStep === 2 && !validateStep2()) return;
     goToStep(fromStep + 1);
   }
 </script>
