@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>承攬商安全衛生教育訓練 — 瑞昱半導體</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #070C1A;
+      --surface:      #0D1526;
+      --surface-2:    #141E32;
+      --border:       #1C2B42;
+      --blue:         #4B8DDF;
+      --blue-light:   #6AA3F0;
+      --blue-dim:     rgba(75, 141, 223, 0.12);
+      --amber:        #F0A030;
+      --amber-dim:    rgba(240, 160, 48, 0.10);
+      --amber-glow:   rgba(240, 160, 48, 0.22);
+      --red:          #E05252;
+      --green:        #34C97A;
+      --text:         #DDE8F5;
+      --text-secondary: #6E85A0;
+      --text-muted:   #3D526A;
+      --cn:           'Noto Sans TC', sans-serif;
+      --en:           'Inter', sans-serif;
+      --radius:       10px;
+      --radius-sm:    6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--cn);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ──────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 12, 26, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-mark {
+      width: 30px;
+      height: 30px;
+      border: 1.5px solid var(--amber);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--en);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-wordmark {
+      font-family: var(--en);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+
+    .nav-badge {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      padding: 100px 40px 88px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Circuit dot grid — the signature element */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 0 0, rgba(240, 160, 48, 0.20) 1.5px, transparent 0);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 20%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 20%, transparent 75%);
+    }
+
+    /* Radial blue glow at top */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 360px;
+      background: radial-gradient(ellipse, rgba(75, 141, 223, 0.10) 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--en);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 28px;
+      padding: 6px 16px;
+      border: 1px solid var(--amber-glow);
+      border-radius: 100px;
+      background: var(--amber-dim);
+    }
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: blink 2.4s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+
+    .hero-title {
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--blue-light);
+    }
+
+    .hero-subtitle {
+      font-family: var(--en);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero-divider {
+      width: 44px;
+      height: 2px;
+      background: var(--amber);
+      margin: 0 auto 24px;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ── TRAINING CARDS ─────────────────────────────────── */
+    .training {
+      padding: 72px 40px;
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: var(--en);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: var(--radius);
+      padding: 26px 24px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--amber);
+      border-left-color: var(--amber);
+      transform: translateY(-3px);
+    }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: var(--amber-dim);
+      border: 1px solid var(--amber-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+
+    .card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .card-name-en {
+      font-family: var(--en);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .card-body {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ── FORM SECTION ──────────────────────────────────── */
+    .form-section {
+      padding: 0 40px 100px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .form-header {
+      padding: 26px 32px 22px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .required-note {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .required-note span {
+      color: var(--amber);
+    }
+
+    .form-body {
+      padding: 28px 32px 32px;
+    }
+
+    .field {
+      margin-bottom: 22px;
+    }
+
+    .field-label {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .label-cn {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .label-en {
+      font-family: var(--en);
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .required-star {
+      color: var(--amber);
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-family: var(--en);
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid #243044;
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      font-family: var(--cn);
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]::placeholder,
+    input[type="email"]::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(75, 141, 223, 0.13);
+    }
+
+    input.invalid {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(224, 82, 82, 0.10);
+    }
+
+    /* ── AGREEMENT ─────────────────────────────────────── */
+    .agreement {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      margin-top: 28px;
+      margin-bottom: 24px;
+    }
+
+    .agreement-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .agreement-body {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid #243044;
+      border-radius: 3px;
+      background: var(--bg);
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 3px;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+
+    input[type="checkbox"]:checked {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1.5px;
+      width: 5px;
+      height: 9px;
+      border: 2px solid white;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .checkbox-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      line-height: 1.55;
+    }
+
+    .checkbox-label .en {
+      font-family: var(--en);
+      color: var(--text-muted);
+    }
+
+    /* ── SUBMIT ────────────────────────────────────────── */
+    .btn-submit {
+      width: 100%;
+      padding: 13px 24px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--cn);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--blue-light);
+    }
+
+    .btn-submit:active:not(:disabled) {
+      transform: scale(0.99);
+    }
+
+    .btn-submit:disabled {
+      background: var(--border);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    .form-footnote {
+      margin-top: 14px;
+      font-family: var(--en);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ── SUCCESS ───────────────────────────────────────── */
+    .success-card {
+      display: none;
+      background: var(--surface);
+      border: 1px solid rgba(52, 201, 122, 0.35);
+      border-radius: var(--radius);
+      padding: 56px 32px;
+      text-align: center;
+      box-shadow: 0 0 0 4px rgba(52, 201, 122, 0.06);
+    }
+
+    .success-card.show { display: block; }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(52, 201, 122, 0.10);
+      border: 1.5px solid rgba(52, 201, 122, 0.35);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      font-size: 28px;
+    }
+
+    .success-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .success-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .success-en {
+      font-family: var(--en);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      text-align: center;
+      font-family: var(--en);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ── FADE IN ─────────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav { padding: 0 20px; }
+      .nav-badge { display: none; }
+      .hero { padding: 72px 20px 64px; }
+      .training { padding: 52px 20px; }
+      .form-section { padding: 0 20px 72px; }
+      .form-header { padding: 18px 20px; }
+      .form-body { padding: 20px; }
+      .agreement { padding: 14px 16px; }
+    }
+
+    /* ── REDUCED MOTION ─────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="nav-logo" href="#">
+      <span class="nav-logo-mark">RT</span>
+      <span class="nav-wordmark">REALTEK</span>
+    </a>
+    <span class="nav-badge">承攬商安全衛生教育訓練</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Safety &amp; Health Training
+      </div>
+      <h1 class="hero-title">承攬商<em>安全衛生</em><br>教育訓練</h1>
+      <p class="hero-subtitle">Realtek Semiconductor — Contractor Onboarding</p>
+      <div class="hero-divider"></div>
+      <p class="hero-desc">入廠前必須完成本訓練登記。<br>每位訓練人員請個別填寫一份，資料將用於安全紀錄存查。</p>
+    </div>
+  </section>
+
+  <!-- TRAINING OVERVIEW -->
+  <section class="training">
+    <div class="section-eyebrow">Training Overview</div>
+    <h2 class="section-title">入廠注意事項</h2>
+    <div class="cards-grid">
+      <div class="card fade-in">
+        <div class="card-icon">⚡</div>
+        <div class="card-name">靜電防護規定</div>
+        <div class="card-name-en">Electrostatic Discharge Control</div>
+        <div class="card-body">進入廠區需穿著防靜電衣物並配戴靜電環。未依規定穿著者，禁止進入生產及測試區域。</div>
+      </div>
+      <div class="card fade-in" style="transition-delay:0.08s">
+        <div class="card-icon">🚨</div>
+        <div class="card-name">緊急應變程序</div>
+        <div class="card-name-en">Emergency Response</div>
+        <div class="card-body">熟悉所在區域的緊急疏散路線與集合點。發生緊急狀況時，立即跟隨廠區人員指示撤離。</div>
+      </div>
+      <div class="card fade-in" style="transition-delay:0.16s">
+        <div class="card-icon">🚫</div>
+        <div class="card-name">管制物品規定</div>
+        <div class="card-name-en">Controlled Items Policy</div>
+        <div class="card-body">嚴禁攜帶個人攝影器材及行動儲存裝置進入廠區。個人手機需在指定區域存放。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-section">
+    <div class="section-eyebrow" style="margin-bottom:10px">Registration</div>
+    <h2 class="section-title">填寫訓練資料</h2>
+
+    <div class="form-card fade-in" id="formCard">
+      <div class="form-header">
+        <span class="form-title">訓練人員資料</span>
+        <span class="required-note"><span>＊</span> 為必填欄位</span>
+      </div>
+      <form class="form-body" id="trainingForm" novalidate>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="label-cn">電子郵件</span>
+            <span class="label-en">Email Address</span>
+            <span class="required-star">＊</span>
+          </div>
+          <input type="email" id="email" name="email" placeholder="example@company.com" autocomplete="email" />
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="label-cn">承攬商名稱</span>
+            <span class="label-en">Contractor Company</span>
+            <span class="required-star">＊</span>
+          </div>
+          <input type="text" id="company" name="company" placeholder="請填寫公司全稱" autocomplete="organization" />
+          <div class="field-hint">Example: ○○工程有限公司（請填寫公司全稱）</div>
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="label-cn">訓練人員姓名</span>
+            <span class="label-en">Trainee Name</span>
+            <span class="required-star">＊</span>
+          </div>
+          <input type="text" id="name" name="name" placeholder="請填寫中文姓名" autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <div class="field-label">
+            <span class="label-cn">身分證字號</span>
+            <span class="label-en">National ID Number</span>
+            <span class="required-star">＊</span>
+          </div>
+          <input type="text" id="idNumber" name="idNumber" placeholder="A123456789" maxlength="10" />
+          <div class="field-hint">Format: 1 letter + 9 digits &nbsp;·&nbsp; 格式：1 碼英文字母 + 9 碼數字</div>
+        </div>
+
+        <!-- Agreement -->
+        <div class="agreement">
+          <div class="agreement-title">聲明與同意 Declaration</div>
+          <div class="agreement-body">
+            本人已閱讀並了解瑞昱半導體入廠安全規定，並同意遵守所有廠區安全管理規範。本表單所填寫之個人資料，將僅用於安全教育訓練紀錄。
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="agree" name="agree" />
+            <label class="checkbox-label" for="agree">
+              本人已閱讀並同意上述聲明<br>
+              <span class="en">I have read and agree to the declaration above.</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">提交訓練登記 →</button>
+        <p class="form-footnote">
+          Submitting this form confirms your attendance in the Realtek safety &amp; health training session.<br>
+          每位人員限填一份 · One submission per person.
+        </p>
+
+      </form>
+    </div>
+
+    <!-- Success state -->
+    <div class="success-card" id="successCard">
+      <div class="success-icon">✓</div>
+      <div class="success-title">登記完成</div>
+      <div class="success-body">
+        感謝您完成安全衛生教育訓練登記。<br>
+        您的資料已成功送出，請保留此頁面作為紀錄。
+      </div>
+      <p class="success-en">Your registration has been submitted successfully.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Realtek Semiconductor Corp. &nbsp;瑞昱半導體股份有限公司</p>
+    <p>Safety &amp; Health Department · 安全衛生部門</p>
+  </footer>
+
+  <script>
+    // Scroll-triggered fade-in
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Form validation + submit
+    const form = document.getElementById('trainingForm');
+    const formCard = document.getElementById('formCard');
+    const successCard = document.getElementById('successCard');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const ID_RE = /^[A-Za-z][0-9]{9}$/;
+
+    function validateEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+    }
+
+    function setFieldState(inputId, valid) {
+      const el = document.getElementById(inputId);
+      if (valid) {
+        el.classList.remove('invalid');
+      } else {
+        el.classList.add('invalid');
+      }
+    }
+
+    // Live-clear errors on change
+    ['email', 'company', 'name', 'idNumber'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        document.getElementById(id).classList.remove('invalid');
+      });
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const email    = document.getElementById('email').value;
+      const company  = document.getElementById('company').value.trim();
+      const name     = document.getElementById('name').value.trim();
+      const idNumber = document.getElementById('idNumber').value.trim();
+      const agreed   = document.getElementById('agree').checked;
+
+      const emailOk    = validateEmail(email);
+      const companyOk  = company.length > 0;
+      const nameOk     = name.length > 0;
+      const idOk       = ID_RE.test(idNumber);
+
+      setFieldState('email',    emailOk);
+      setFieldState('company',  companyOk);
+      setFieldState('name',     nameOk);
+      setFieldState('idNumber', idOk);
+
+      if (!emailOk || !companyOk || !nameOk || !idOk || !agreed) {
+        if (!agreed) {
+          document.getElementById('agree').style.outline = '2px solid var(--red)';
+        }
+        return;
+      }
+
+      submitBtn.textContent = '提交中⋯';
+      submitBtn.disabled = true;
+
+      // Simulate async submission
+      setTimeout(() => {
+        formCard.style.display = 'none';
+        successCard.classList.add('show');
+        successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 900);
+    });
+
+    document.getElementById('agree').addEventListener('change', function () {
+      this.style.outline = '';
+    });
+  </script>
+</body>
+</html>
