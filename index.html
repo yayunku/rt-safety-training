@@ -599,12 +599,19 @@
     QUIZ.forEach(q => data.append(q.id, getRadioValue(q.id)));
 
     try {
+      // no-cors POST resolves on success (opaque response, no body/status readable);
+      // it only rejects on a genuine network failure (e.g. offline, DNS error).
       await fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data });
     } catch (_) {
-      // no-cors 一定會在讀 response 時 throw，資料仍已送出
+      gate.textContent = '送出失敗，請檢查網路連線後再試一次。';
+      gate.classList.add('show');
+      btn.textContent = '送出訓練登記 →';
+      btn.disabled = false;
+      return;
     }
 
     // 評分並顯示成功畫面
+    gate.classList.remove('show');
     const result = window.gradeQuiz();
     const rEl = document.getElementById('quizResult');
     if (result.wrong.length === 0) {
