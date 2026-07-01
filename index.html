@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>承攬商安全衛生教育訓練 — 瑞昱半導體</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -22,13 +22,15 @@
       --amber-glow:   rgba(196, 122, 0, 0.20);
       --red:          #C0392B;
       --green:        #1A7F4B;
+      --green-dim:    rgba(26, 127, 75, 0.10);
       --text:         #0E1A2E;
       --text-secondary: #4A607A;
       --text-muted:   #8A9DB5;
-      --cn:           'Noto Sans TC', sans-serif;
-      --en:           'Inter', sans-serif;
-      --radius:       10px;
-      --radius-sm:    6px;
+      --cn: 'Noto Sans TC', sans-serif;
+      --en: 'Inter', sans-serif;
+      --radius: 10px;
+      --radius-sm: 6px;
+      --card-shadow: 0 1px 3px rgba(14,26,46,0.06), 0 4px 16px rgba(14,26,46,0.07);
     }
 
     html { scroll-behavior: smooth; }
@@ -42,783 +44,666 @@
       min-height: 100vh;
     }
 
-    /* ── NAV ──────────────────────────────────────────── */
+    /* ── NAV ─────────────────────────────────────── */
     .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       background: rgba(244, 247, 251, 0.92);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      padding: 0 40px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 0 40px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-
     .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
     }
-
     .nav-logo-mark {
-      width: 30px;
-      height: 30px;
-      border: 1.5px solid var(--amber);
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--en);
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--amber);
-      letter-spacing: -0.02em;
+      width: 30px; height: 30px; border: 1.5px solid var(--amber);
+      border-radius: 5px; display: flex; align-items: center; justify-content: center;
+      font-family: var(--en); font-size: 10px; font-weight: 700; color: var(--amber);
     }
+    .nav-wordmark { font-family: var(--en); font-size: 14px; font-weight: 600; letter-spacing: 0.08em; color: var(--text); }
+    .nav-badge { font-size: 12px; color: var(--text-secondary); }
 
-    .nav-wordmark {
-      font-family: var(--en);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--text);
-    }
-
-    .nav-badge {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    /* ── HERO ──────────────────────────────────────────── */
+    /* ── HERO ────────────────────────────────────── */
     .hero {
-      position: relative;
-      padding: 100px 40px 88px;
-      text-align: center;
-      overflow: hidden;
+      position: relative; padding: 88px 40px 72px; text-align: center; overflow: hidden;
     }
-
-    /* Circuit dot grid — the signature element */
     .hero::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle at 0 0, rgba(196, 122, 0, 0.22) 1.5px, transparent 0);
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 0 0, rgba(196,122,0,0.22) 1.5px, transparent 0);
       background-size: 36px 36px;
       mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 20%, transparent 75%);
       -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 20%, transparent 75%);
     }
-
-    /* Radial blue glow at top */
     .hero::after {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 700px;
-      height: 360px;
-      background: radial-gradient(ellipse, rgba(30, 92, 200, 0.07) 0%, transparent 68%);
+      content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 360px;
+      background: radial-gradient(ellipse, rgba(30,92,200,0.07) 0%, transparent 68%);
       pointer-events: none;
     }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-
+    .hero-content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
     .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--en);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 28px;
-      padding: 6px 16px;
-      border: 1px solid var(--amber-glow);
-      border-radius: 100px;
-      background: var(--amber-dim);
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--en); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber);
+      margin-bottom: 24px; padding: 6px 16px;
+      border: 1px solid var(--amber-glow); border-radius: 100px; background: var(--amber-dim);
     }
-
     .eyebrow-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--amber);
+      width: 6px; height: 6px; border-radius: 50%; background: var(--amber);
       animation: blink 2.4s ease infinite;
     }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.25; }
-    }
-
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
     .hero-title {
-      font-size: clamp(30px, 5vw, 52px);
-      font-weight: 700;
-      line-height: 1.18;
-      letter-spacing: -0.01em;
-      color: var(--text);
-      margin-bottom: 8px;
+      font-size: clamp(28px, 4.5vw, 48px); font-weight: 700;
+      line-height: 1.2; color: var(--text); margin-bottom: 8px;
     }
-
-    .hero-title em {
-      font-style: normal;
-      color: var(--blue);
-    }
-
+    .hero-title em { font-style: normal; color: var(--blue); }
     .hero-subtitle {
-      font-family: var(--en);
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      margin-bottom: 28px;
+      font-family: var(--en); font-size: 12px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-secondary); margin-bottom: 24px;
     }
+    .hero-divider { width: 44px; height: 2px; background: var(--amber); margin: 0 auto 20px; }
+    .hero-desc { font-size: 14px; color: var(--text-secondary); max-width: 420px; margin: 0 auto; }
 
-    .hero-divider {
-      width: 44px;
-      height: 2px;
-      background: var(--amber);
-      margin: 0 auto 24px;
+    /* ── PROGRESS STEPS ──────────────────────────── */
+    .progress-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; padding: 32px 40px 0; max-width: 680px; margin: 0 auto;
     }
-
-    .hero-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      max-width: 440px;
-      margin: 0 auto;
-      line-height: 1.75;
+    .progress-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+    .progress-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 2px solid var(--border); background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--en); font-size: 13px; font-weight: 600; color: var(--text-muted);
+      position: relative; z-index: 1;
     }
+    .progress-dot.active { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .progress-dot.done { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+    .progress-label { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .progress-line { flex: 1; height: 2px; background: var(--border); margin: 0 -1px; margin-bottom: 24px; }
 
-    /* ── TRAINING CARDS ─────────────────────────────────── */
-    .training {
-      padding: 72px 40px;
-      max-width: 1040px;
-      margin: 0 auto;
-    }
+    /* ── FORM SECTIONS ───────────────────────────── */
+    .form-wrap { max-width: 720px; margin: 0 auto; padding: 32px 40px 96px; }
 
-    .section-eyebrow {
-      font-family: var(--en);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 10px;
-    }
-
-    .section-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 32px;
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--amber);
-      border-radius: var(--radius);
-      padding: 26px 24px;
-      box-shadow: 0 1px 3px rgba(14,26,46,0.06);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
-    }
-
-    .card:hover {
-      box-shadow: 0 4px 16px rgba(14,26,46,0.12);
-      transform: translateY(-3px);
-    }
-
-    .card-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      background: var(--amber-dim);
-      border: 1px solid var(--amber-glow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      font-size: 20px;
-    }
-
-    .card-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 3px;
-    }
-
-    .card-name-en {
-      font-family: var(--en);
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-      letter-spacing: 0.02em;
-    }
-
-    .card-body {
-      font-size: 13.5px;
-      color: var(--text-secondary);
-      line-height: 1.65;
-    }
-
-    /* ── FORM SECTION ──────────────────────────────────── */
     .form-section {
-      padding: 0 40px 100px;
-      max-width: 640px;
-      margin: 0 auto;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 20px;
+      box-shadow: var(--card-shadow); overflow: hidden;
     }
 
-    .form-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 1px 4px rgba(14,26,46,0.06), 0 4px 20px rgba(14,26,46,0.08);
-    }
-
-    .form-header {
-      padding: 26px 32px 22px;
-      border-bottom: 1px solid var(--border);
+    .section-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 20px 28px; border-bottom: 1px solid var(--border);
       background: var(--surface-2);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
-
-    .form-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .required-note {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .required-note span {
-      color: var(--amber);
-    }
-
-    .form-body {
-      padding: 28px 32px 32px;
-    }
-
-    .field {
-      margin-bottom: 22px;
-    }
-
-    .field-label {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .label-cn {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .label-en {
-      font-family: var(--en);
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .required-star {
-      color: var(--amber);
-      font-size: 16px;
-      line-height: 1;
-    }
-
-    .field-hint {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 6px;
-      font-family: var(--en);
-    }
-
-    input[type="text"],
-    input[type="email"] {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 11px 14px;
-      font-family: var(--cn);
-      font-size: 15px;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      -webkit-appearance: none;
-    }
-
-    input[type="text"]::placeholder,
-    input[type="email"]::placeholder {
-      color: var(--text-muted);
-      font-weight: 400;
-    }
-
-    input[type="text"]:focus,
-    input[type="email"]:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(75, 141, 223, 0.13);
-    }
-
-    input.invalid {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(224, 82, 82, 0.10);
-    }
-
-    /* ── AGREEMENT ─────────────────────────────────────── */
-    .agreement {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 18px 20px;
-      margin-top: 28px;
-      margin-bottom: 24px;
-    }
-
-    .agreement-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .agreement-body {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.65;
-    }
-
-    .checkbox-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 3px;
-      background: var(--surface);
-      -webkit-appearance: none;
-      appearance: none;
-      cursor: pointer;
+    .section-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--blue); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--en); font-size: 12px; font-weight: 600;
       flex-shrink: 0;
-      margin-top: 3px;
+    }
+    .section-title-cn { font-size: 15px; font-weight: 700; color: var(--text); }
+    .section-title-en { font-family: var(--en); font-size: 11px; color: var(--text-secondary); }
+    .section-body { padding: 24px 28px 28px; }
+
+    /* ── FIELDS ──────────────────────────────────── */
+    .field { margin-bottom: 20px; }
+    .field:last-child { margin-bottom: 0; }
+    .field-label {
+      display: flex; align-items: baseline; gap: 6px;
+      margin-bottom: 8px; flex-wrap: wrap;
+    }
+    .label-cn { font-size: 14px; font-weight: 500; color: var(--text); }
+    .label-en { font-family: var(--en); font-size: 11px; color: var(--text-secondary); }
+    .req { color: var(--amber); font-size: 15px; line-height: 1; }
+    .field-hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; font-family: var(--en); }
+
+    input[type="text"], input[type="email"], input[type="date"] {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 11px 14px;
+      font-family: var(--cn); font-size: 15px; color: var(--text);
+      outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+    input::placeholder { color: var(--text-muted); font-weight: 400; }
+    input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(30,92,200,0.10); }
+    input.err { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.08); }
+
+    /* ── YOUTUBE GRID ────────────────────────────── */
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .video-item {}
+    .video-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; font-family: var(--en); }
+    .video-wrap {
+      position: relative; width: 100%; aspect-ratio: 16/9;
+      border-radius: var(--radius-sm); overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    /* ── RADIO GROUPS ────────────────────────────── */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-group.inline { flex-direction: row; gap: 12px; flex-wrap: wrap; }
+
+    .radio-opt {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
+      font-size: 14px; color: var(--text);
+      user-select: none;
+    }
+    .radio-opt:hover { border-color: var(--blue); background: var(--blue-dim); }
+    .radio-opt input[type="radio"] { display: none; }
+    .radio-dot {
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 2px solid var(--border); background: var(--surface);
+      flex-shrink: 0; transition: border-color 0.15s;
       position: relative;
     }
-
-    input[type="checkbox"]:checked {
-      background: var(--blue);
-      border-color: var(--blue);
+    .radio-opt input:checked ~ .radio-dot { border-color: var(--blue); border-width: 5px; }
+    .radio-opt:has(input:checked) {
+      border-color: var(--blue); background: var(--blue-dim); color: var(--blue);
     }
 
-    input[type="checkbox"]:checked::after {
-      content: '';
-      position: absolute;
-      left: 4px;
-      top: 1.5px;
-      width: 5px;
-      height: 9px;
-      border: 2px solid white;
-      border-top: none;
-      border-left: none;
-      transform: rotate(45deg);
+    /* O / X special style */
+    .radio-group.ox { flex-direction: row; gap: 10px; }
+    .radio-opt.ox-o:has(input:checked) { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+    .radio-opt.ox-o:has(input:checked) .radio-dot { border-color: var(--green); }
+    .radio-opt.ox-x:has(input:checked) { border-color: var(--red); background: rgba(192,57,43,0.07); color: var(--red); }
+    .radio-opt.ox-x:has(input:checked) .radio-dot { border-color: var(--red); }
+
+    /* ── QUIZ QUESTIONS ──────────────────────────── */
+    .quiz-q { margin-bottom: 28px; }
+    .quiz-q:last-child { margin-bottom: 0; }
+    .q-num { font-family: var(--en); font-size: 11px; font-weight: 600; color: var(--blue); margin-bottom: 6px; letter-spacing: 0.08em; }
+    .q-text { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 12px; line-height: 1.6; }
+
+    .section-note {
+      background: rgba(196,122,0,0.07); border: 1px solid var(--amber-glow);
+      border-radius: var(--radius-sm); padding: 12px 16px;
+      font-size: 13px; color: var(--amber); margin-bottom: 24px;
     }
 
-    .checkbox-label {
-      font-size: 13px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      line-height: 1.55;
+    /* ── AGREEMENT CARD ──────────────────────────── */
+    .agree-card {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 16px 18px; margin-bottom: 20px;
     }
+    .agree-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .agree-body { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
 
-    .checkbox-label .en {
-      font-family: var(--en);
-      color: var(--text-muted);
-    }
-
-    /* ── SUBMIT ────────────────────────────────────────── */
+    /* ── SUBMIT ──────────────────────────────────── */
+    .submit-wrap { max-width: 720px; margin: 0 auto; padding: 0 40px 100px; }
     .btn-submit {
-      width: 100%;
-      padding: 13px 24px;
-      background: var(--blue);
-      color: #fff;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-family: var(--cn);
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: background 0.15s ease, transform 0.1s ease;
+      width: 100%; padding: 14px 24px;
+      background: var(--blue); color: #fff; border: none;
+      border-radius: var(--radius-sm); font-family: var(--cn); font-size: 15px;
+      font-weight: 600; cursor: pointer; letter-spacing: 0.04em;
+      transition: background 0.15s, transform 0.1s;
     }
+    .btn-submit:hover:not(:disabled) { background: var(--blue-light); }
+    .btn-submit:active:not(:disabled) { transform: scale(0.99); }
+    .btn-submit:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+    .submit-note { margin-top: 12px; font-family: var(--en); font-size: 11px; color: var(--text-muted); text-align: center; }
 
-    .btn-submit:hover:not(:disabled) {
-      background: var(--blue-light);
-    }
-
-    .btn-submit:active:not(:disabled) {
-      transform: scale(0.99);
-    }
-
-    .btn-submit:disabled {
-      background: var(--border);
-      color: var(--text-muted);
-      cursor: not-allowed;
-    }
-
-    .form-footnote {
-      margin-top: 14px;
-      font-family: var(--en);
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: center;
-      line-height: 1.5;
-    }
-
-    /* ── SUCCESS ───────────────────────────────────────── */
+    /* ── SUCCESS ─────────────────────────────────── */
     .success-card {
-      display: none;
-      background: var(--surface);
-      border: 1px solid rgba(52, 201, 122, 0.35);
-      border-radius: var(--radius);
-      padding: 56px 32px;
-      text-align: center;
-      box-shadow: 0 0 0 4px rgba(52, 201, 122, 0.06);
+      display: none; background: var(--surface);
+      border: 1px solid rgba(26,127,75,0.35); border-radius: var(--radius);
+      padding: 56px 32px; text-align: center;
+      box-shadow: 0 0 0 4px rgba(26,127,75,0.06);
+      max-width: 720px; margin: 0 auto;
     }
-
     .success-card.show { display: block; }
-
     .success-icon {
-      width: 64px;
-      height: 64px;
-      background: rgba(52, 201, 122, 0.10);
-      border: 1.5px solid rgba(52, 201, 122, 0.35);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 22px;
-      font-size: 28px;
+      width: 64px; height: 64px;
+      background: var(--green-dim); border: 1.5px solid rgba(26,127,75,0.35);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px; font-size: 28px;
     }
+    .success-title { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 10px; }
+    .success-body { font-size: 14px; color: var(--text-secondary); line-height: 1.75; }
+    .success-en { font-family: var(--en); font-size: 12px; color: var(--text-muted); margin-top: 6px; }
 
-    .success-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--green);
-      margin-bottom: 10px;
-    }
-
-    .success-body {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.75;
-    }
-
-    .success-en {
-      font-family: var(--en);
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    /* ── FOOTER ─────────────────────────────────────────── */
+    /* ── FOOTER ──────────────────────────────────── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 28px 40px;
-      text-align: center;
-      font-family: var(--en);
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.8;
+      border-top: 1px solid var(--border); padding: 24px 40px;
+      text-align: center; font-family: var(--en); font-size: 11px; color: var(--text-muted); line-height: 1.8;
     }
 
-    /* ── FADE IN ─────────────────────────────────────────── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
+    /* ── FADE IN ─────────────────────────────────── */
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.45s, transform 0.45s; }
+    .fade-in.visible { opacity: 1; transform: none; }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* ── RESPONSIVE ─────────────────────────────────────── */
+    /* ── RESPONSIVE ──────────────────────────────── */
     @media (max-width: 600px) {
-      .nav { padding: 0 20px; }
-      .nav-badge { display: none; }
-      .hero { padding: 72px 20px 64px; }
-      .training { padding: 52px 20px; }
-      .form-section { padding: 0 20px 72px; }
-      .form-header { padding: 18px 20px; }
-      .form-body { padding: 20px; }
-      .agreement { padding: 14px 16px; }
+      .nav { padding: 0 20px; } .nav-badge { display: none; }
+      .hero { padding: 64px 20px 52px; }
+      .progress-row { padding: 24px 20px 0; }
+      .form-wrap { padding: 24px 16px 72px; }
+      .section-header { padding: 16px 20px; }
+      .section-body { padding: 18px 20px 22px; }
+      .submit-wrap { padding: 0 16px 72px; }
+      .video-grid { grid-template-columns: 1fr; }
+      .radio-group.ox { flex-direction: column; }
     }
 
-    /* ── REDUCED MOTION ─────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <a class="nav-logo" href="#">
-      <span class="nav-logo-mark">RT</span>
-      <span class="nav-wordmark">REALTEK</span>
-    </a>
-    <span class="nav-badge">承攬商安全衛生教育訓練</span>
-  </nav>
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-mark">RT</span>
+    <span class="nav-wordmark">REALTEK</span>
+  </a>
+  <span class="nav-badge">承攬商安全衛生教育訓練</span>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-eyebrow">
-        <span class="eyebrow-dot"></span>
-        Safety &amp; Health Training
-      </div>
-      <h1 class="hero-title">承攬商<em>安全衛生</em><br>教育訓練</h1>
-      <p class="hero-subtitle">Realtek Semiconductor — Contractor Onboarding</p>
-      <div class="hero-divider"></div>
-      <p class="hero-desc">入廠前必須完成本訓練登記。<br>每位訓練人員請個別填寫一份，資料將用於安全紀錄存查。</p>
-    </div>
-  </section>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Safety &amp; Health Training</div>
+    <h1 class="hero-title">瑞昱承攬商<br><em>線上安全衛生</em>教育訓練</h1>
+    <p class="hero-subtitle">Realtek Semiconductor — Contractor Onboarding</p>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">入廠的承攬商，以人為單位，一人填寫一份。<br>請依序完成基本資料、觀看訓練教材、完成測驗後送出。</p>
+  </div>
+</section>
 
-  <!-- TRAINING OVERVIEW -->
-  <section class="training">
-    <div class="section-eyebrow">Training Overview</div>
-    <h2 class="section-title">入廠注意事項</h2>
-    <div class="cards-grid">
-      <div class="card fade-in">
-        <div class="card-icon">⚡</div>
-        <div class="card-name">靜電防護規定</div>
-        <div class="card-name-en">Electrostatic Discharge Control</div>
-        <div class="card-body">進入廠區需穿著防靜電衣物並配戴靜電環。未依規定穿著者，禁止進入生產及測試區域。</div>
-      </div>
-      <div class="card fade-in" style="transition-delay:0.08s">
-        <div class="card-icon">🚨</div>
-        <div class="card-name">緊急應變程序</div>
-        <div class="card-name-en">Emergency Response</div>
-        <div class="card-body">熟悉所在區域的緊急疏散路線與集合點。發生緊急狀況時，立即跟隨廠區人員指示撤離。</div>
-      </div>
-      <div class="card fade-in" style="transition-delay:0.16s">
-        <div class="card-icon">🚫</div>
-        <div class="card-name">管制物品規定</div>
-        <div class="card-name-en">Controlled Items Policy</div>
-        <div class="card-body">嚴禁攜帶個人攝影器材及行動儲存裝置進入廠區。個人手機需在指定區域存放。</div>
+<!-- MAIN FORM -->
+<form id="mainForm" novalidate>
+<div class="form-wrap">
+
+  <!-- ── SECTION 1: 基本資料 ── -->
+  <div class="form-section fade-in">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title-cn">基本資料</div>
+        <div class="section-title-en">Personal Information</div>
       </div>
     </div>
-  </section>
+    <div class="section-body">
 
-  <!-- FORM -->
-  <section class="form-section">
-    <div class="section-eyebrow" style="margin-bottom:10px">Registration</div>
-    <h2 class="section-title">填寫訓練資料</h2>
-
-    <div class="form-card fade-in" id="formCard">
-      <div class="form-header">
-        <span class="form-title">訓練人員資料</span>
-        <span class="required-note"><span>＊</span> 為必填欄位</span>
+      <div class="field">
+        <div class="field-label">
+          <span class="label-cn">承攬商名稱</span>
+          <span class="label-en">Contractor Company</span>
+          <span class="req">＊</span>
+        </div>
+        <input type="text" id="f-company" name="entry.1281327973" placeholder="請填寫公司全稱" />
+        <div class="field-hint">Example: ○○工程有限公司（請填寫公司全稱）</div>
       </div>
-      <form class="form-body" id="trainingForm" novalidate>
 
-        <div class="field">
-          <div class="field-label">
-            <span class="label-cn">電子郵件</span>
-            <span class="label-en">Email Address</span>
-            <span class="required-star">＊</span>
-          </div>
-          <input type="email" id="email" name="email" placeholder="example@company.com" autocomplete="email" />
+      <div class="field">
+        <div class="field-label">
+          <span class="label-cn">訓練人員姓名</span>
+          <span class="label-en">Trainee Name</span>
+          <span class="req">＊</span>
         </div>
-
-        <div class="field">
-          <div class="field-label">
-            <span class="label-cn">承攬商名稱</span>
-            <span class="label-en">Contractor Company</span>
-            <span class="required-star">＊</span>
-          </div>
-          <input type="text" id="company" name="company" placeholder="請填寫公司全稱" autocomplete="organization" />
-          <div class="field-hint">Example: ○○工程有限公司（請填寫公司全稱）</div>
-        </div>
-
-        <div class="field">
-          <div class="field-label">
-            <span class="label-cn">訓練人員姓名</span>
-            <span class="label-en">Trainee Name</span>
-            <span class="required-star">＊</span>
-          </div>
-          <input type="text" id="name" name="name" placeholder="請填寫中文姓名" autocomplete="name" />
-        </div>
-
-        <div class="field">
-          <div class="field-label">
-            <span class="label-cn">身分證字號</span>
-            <span class="label-en">National ID Number</span>
-            <span class="required-star">＊</span>
-          </div>
-          <input type="text" id="idNumber" name="idNumber" placeholder="A123456789" maxlength="10" />
-          <div class="field-hint">Format: 1 letter + 9 digits &nbsp;·&nbsp; 格式：1 碼英文字母 + 9 碼數字</div>
-        </div>
-
-        <!-- Agreement -->
-        <div class="agreement">
-          <div class="agreement-title">聲明與同意 Declaration</div>
-          <div class="agreement-body">
-            本人已閱讀並了解瑞昱半導體入廠安全規定，並同意遵守所有廠區安全管理規範。本表單所填寫之個人資料，將僅用於安全教育訓練紀錄。
-          </div>
-          <div class="checkbox-row">
-            <input type="checkbox" id="agree" name="agree" />
-            <label class="checkbox-label" for="agree">
-              本人已閱讀並同意上述聲明<br>
-              <span class="en">I have read and agree to the declaration above.</span>
-            </label>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitBtn">提交訓練登記 →</button>
-        <p class="form-footnote">
-          Submitting this form confirms your attendance in the Realtek safety &amp; health training session.<br>
-          每位人員限填一份 · One submission per person.
-        </p>
-
-      </form>
-    </div>
-
-    <!-- Success state -->
-    <div class="success-card" id="successCard">
-      <div class="success-icon">✓</div>
-      <div class="success-title">登記完成</div>
-      <div class="success-body">
-        感謝您完成安全衛生教育訓練登記。<br>
-        您的資料已成功送出，請保留此頁面作為紀錄。
+        <input type="text" id="f-name" name="entry.185951546" placeholder="請填寫中文姓名" autocomplete="name" />
       </div>
-      <p class="success-en">Your registration has been submitted successfully.</p>
+
+      <div class="field">
+        <div class="field-label">
+          <span class="label-cn">訓練人員身分證字號</span>
+          <span class="label-en">National ID Number</span>
+          <span class="req">＊</span>
+        </div>
+        <input type="text" id="f-id" name="entry.293336872" placeholder="A123456789" maxlength="10" />
+        <div class="field-hint">Format: 1 letter + 9 digits &nbsp;·&nbsp; 格式：首碼英文字母 + 9 碼數字</div>
+      </div>
+
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <p>© 2025 Realtek Semiconductor Corp. &nbsp;瑞昱半導體股份有限公司</p>
-    <p>Safety &amp; Health Department · 安全衛生部門</p>
-  </footer>
+  <!-- ── SECTION 2: 訓練教材 ── -->
+  <div class="form-section fade-in" style="transition-delay:0.06s">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title-cn">訓練教材</div>
+        <div class="section-title-en">Training Materials</div>
+      </div>
+    </div>
+    <div class="section-body">
 
-  <script>
-    // Scroll-triggered fade-in
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+      <div style="font-size:13px;color:var(--text-secondary);margin-bottom:18px;">
+        請點影片右下角 <strong>YouTube</strong> 字體，進入 YouTube 網頁版即可放大觀看。請依序完整觀看全部 5 部影片。
+      </div>
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+      <div class="video-grid">
+        <div class="video-item">
+          <div class="video-label">Part 1 / 5</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/xQS0sywd4ho" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="video-item">
+          <div class="video-label">Part 2 / 5</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/pC4ODmiem40" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="video-item">
+          <div class="video-label">Part 3 / 5</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/KrmyCzlHVN4" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="video-item">
+          <div class="video-label">Part 4 / 5</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/EHC3t3jcIFo" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="video-item">
+          <div class="video-label">Part 5 / 5</div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/Kb4j0zdT4pk" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
 
-    // Form validation + submit
-    const form = document.getElementById('trainingForm');
-    const formCard = document.getElementById('formCard');
-    const successCard = document.getElementById('successCard');
-    const submitBtn = document.getElementById('submitBtn');
+      <div class="field">
+        <div class="field-label">
+          <span class="label-cn">觀看訓練教材日期</span>
+          <span class="label-en">Date of Training</span>
+          <span class="req">＊</span>
+        </div>
+        <input type="date" id="f-date" />
+        <!-- Google Forms needs year/month/day separately; injected in JS on submit -->
+      </div>
 
-    const ID_RE = /^[A-Za-z][0-9]{9}$/;
+      <div class="field" style="margin-top:24px;">
+        <div class="field-label">
+          <span class="label-cn">是否已確實且完整觀看【瑞昱承攬商線上教育訓練教材 1/5 – 5/5】</span>
+          <span class="req">＊</span>
+        </div>
+        <div class="radio-group inline" role="radiogroup">
+          <label class="radio-opt">
+            <input type="radio" name="entry.1650749467" value="是" required />
+            <span class="radio-dot"></span>是
+          </label>
+          <label class="radio-opt">
+            <input type="radio" name="entry.1650749467" value="否" />
+            <span class="radio-dot"></span>否
+          </label>
+        </div>
+      </div>
 
-    function validateEmail(v) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+      <div class="agree-card" style="margin-top:20px;">
+        <div class="agree-title">文件準備聲明</div>
+        <div class="agree-body">入廠人員同意準備以下文件，供瑞昱人員或主管機關可隨時抽查：<br>
+          1. 有效勞工保險資格<br>
+          2. 有效意外責任險或相關雇主責任險等 300 萬元（含）以上之保險證明<br>
+          3. 三年內 6 小時安全衛生教育訓練證明<br>
+          4. 法定人員或設備有效合格證照
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">
+          <span class="label-cn">您是否同意？</span>
+          <span class="req">＊</span>
+        </div>
+        <div class="radio-group inline" role="radiogroup">
+          <label class="radio-opt">
+            <input type="radio" name="entry.1104087735" value="同意" required />
+            <span class="radio-dot"></span>同意
+          </label>
+          <label class="radio-opt">
+            <input type="radio" name="entry.1104087735" value="不同意" />
+            <span class="radio-dot"></span>不同意
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: 訓練測驗 ── -->
+  <div class="form-section fade-in" style="transition-delay:0.12s">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title-cn">訓練測驗</div>
+        <div class="section-title-en">Safety Knowledge Test</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="section-note">及格分數 100 分，未達 100 分請重複考試。每題皆為必答。</div>
+
+      <!-- Q1 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 01 &nbsp;·&nbsp; 是非題</div>
+        <div class="q-text">承攬商進入廠區施工，須向該廠區的警衛窗口換取施工證，依作業期間長短，分為綠色施工證（長期）、黃色施工證（短期）、紅色施工證（臨時）三種。</div>
+        <div class="radio-group ox" role="radiogroup">
+          <label class="radio-opt ox-o"><input type="radio" name="entry.125731587" value="O" required /><span class="radio-dot"></span>O &nbsp;正確</label>
+          <label class="radio-opt ox-x"><input type="radio" name="entry.125731587" value="X" /><span class="radio-dot"></span>X &nbsp;錯誤</label>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 02 &nbsp;·&nbsp; 是非題</div>
+        <div class="q-text">承攬商於各廠區內，駕駛車輛行駛，時速可大於每小時 20 公里。</div>
+        <div class="radio-group ox" role="radiogroup">
+          <label class="radio-opt ox-o"><input type="radio" name="entry.1103177906" value="O" required /><span class="radio-dot"></span>O &nbsp;正確</label>
+          <label class="radio-opt ox-x"><input type="radio" name="entry.1103177906" value="X" /><span class="radio-dot"></span>X &nbsp;錯誤</label>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 03 &nbsp;·&nbsp; 是非題</div>
+        <div class="q-text">承攬商於廠內施工須進行施工申請，相關表單包含施工申請許可單、作業危害因素告知單、承攬商安全衛生環保承諾書。</div>
+        <div class="radio-group ox" role="radiogroup">
+          <label class="radio-opt ox-o"><input type="radio" name="entry.1514744174" value="O" required /><span class="radio-dot"></span>O &nbsp;正確</label>
+          <label class="radio-opt ox-x"><input type="radio" name="entry.1514744174" value="X" /><span class="radio-dot"></span>X &nbsp;錯誤</label>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 04 &nbsp;·&nbsp; 是非題</div>
+        <div class="q-text">承攬商進入廠區施工，屬特殊作業包含：高架作業、吊掛作業、侷限作業、吊籠作業、動火作業、電氣作業。</div>
+        <div class="radio-group ox" role="radiogroup">
+          <label class="radio-opt ox-o"><input type="radio" name="entry.1544188210" value="O" required /><span class="radio-dot"></span>O &nbsp;正確</label>
+          <label class="radio-opt ox-x"><input type="radio" name="entry.1544188210" value="X" /><span class="radio-dot"></span>X &nbsp;錯誤</label>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 05 &nbsp;·&nbsp; 是非題</div>
+        <div class="q-text">承攬商進入廠區施工，施工人員應於入廠前須檢附：保險證明（勞工保險、團體保險）、六小時承攬商職業安全衛生教育證明、特殊作業操作人員合格證。</div>
+        <div class="radio-group ox" role="radiogroup">
+          <label class="radio-opt ox-o"><input type="radio" name="entry.981799889" value="O" required /><span class="radio-dot"></span>O &nbsp;正確</label>
+          <label class="radio-opt ox-x"><input type="radio" name="entry.981799889" value="X" /><span class="radio-dot"></span>X &nbsp;錯誤</label>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 06 &nbsp;·&nbsp; 單選題</div>
+        <div class="q-text">高架作業定義為人員立足點至地板或地面間之垂直距離，多少公尺以上之作業？</div>
+        <div class="radio-group" role="radiogroup">
+          <label class="radio-opt"><input type="radio" name="entry.1296077385" value="兩公尺" required /><span class="radio-dot"></span>兩公尺</label>
+          <label class="radio-opt"><input type="radio" name="entry.1296077385" value="三公尺" /><span class="radio-dot"></span>三公尺</label>
+          <label class="radio-opt"><input type="radio" name="entry.1296077385" value="五公尺" /><span class="radio-dot"></span>五公尺</label>
+          <label class="radio-opt"><input type="radio" name="entry.1296077385" value="十公尺" /><span class="radio-dot"></span>十公尺</label>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 07 &nbsp;·&nbsp; 單選題</div>
+        <div class="q-text">使用合梯進行高架作業，下列措施何者正確？</div>
+        <div class="radio-group" role="radiogroup">
+          <label class="radio-opt"><input type="radio" name="entry.1813206164" value="作業人員穿戴雙掛勾之背負式安全帶，戴安全帽且扣緊帽帶" required /><span class="radio-dot"></span>作業人員穿戴雙掛勾之背負式安全帶，戴安全帽且扣緊帽帶</label>
+          <label class="radio-opt"><input type="radio" name="entry.1813206164" value="確認合梯踏板與結構完整無破損" /><span class="radio-dot"></span>確認合梯踏板與結構完整無破損</label>
+          <label class="radio-opt"><input type="radio" name="entry.1813206164" value="作業人員兩兩一組，夥同作業" /><span class="radio-dot"></span>作業人員兩兩一組，夥同作業</label>
+          <label class="radio-opt"><input type="radio" name="entry.1813206164" value="以上皆是" /><span class="radio-dot"></span>以上皆是</label>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 08 &nbsp;·&nbsp; 單選題</div>
+        <div class="q-text">於廠內進行侷限空間作業，下列採行措施何者正確？</div>
+        <div class="radio-group" role="radiogroup">
+          <label class="radio-opt"><input type="radio" name="entry.632043508" value="使用四合一偵測器連續偵檢作業環境氧氣、一氧化碳、可燃性氣體、硫化氫等氣體濃度是否符合作業規範" required /><span class="radio-dot"></span>使用四合一偵測器連續偵檢（氧氣、一氧化碳、可燃性氣體、硫化氫）</label>
+          <label class="radio-opt"><input type="radio" name="entry.632043508" value="作業人員穿戴背負式安全帶，並勾掛於進出口之救援用三腳架之捲揚器上" /><span class="radio-dot"></span>作業人員穿戴背負式安全帶，勾掛於救援用三腳架捲揚器</label>
+          <label class="radio-opt"><input type="radio" name="entry.632043508" value="於進出口配置全程監視人員，並與內部作業人員保持聯繫" /><span class="radio-dot"></span>於進出口配置全程監視人員，並與內部人員保持聯繫</label>
+          <label class="radio-opt"><input type="radio" name="entry.632043508" value="以上皆是" /><span class="radio-dot"></span>以上皆是</label>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 09 &nbsp;·&nbsp; 單選題</div>
+        <div class="q-text">於廠內進行吊掛作業，下列採行措施何者正確？</div>
+        <div class="radio-group" role="radiogroup">
+          <label class="radio-opt"><input type="radio" name="entry.1466794690" value="提供一機三證(危險性機械合格證、操作人員合格證、指揮人員合格證)供工安人員查核" required /><span class="radio-dot"></span>提供一機三證（危險性機械合格證、操作人員合格證、指揮人員合格證）</label>
+          <label class="radio-opt"><input type="radio" name="entry.1466794690" value="於吊掛作業前進行自主檢點" /><span class="radio-dot"></span>於吊掛作業前進行自主檢點</label>
+          <label class="radio-opt"><input type="radio" name="entry.1466794690" value="進行作業範圍圈為警示，作業中禁止人員闖入吊掛範圍中" /><span class="radio-dot"></span>進行作業範圍警示，禁止人員闖入吊掛範圍</label>
+          <label class="radio-opt"><input type="radio" name="entry.1466794690" value="以上皆是" /><span class="radio-dot"></span>以上皆是</label>
+        </div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="quiz-q">
+        <div class="q-num">Q 10 &nbsp;·&nbsp; 單選題</div>
+        <div class="q-text">於廠內進行電焊或氧乙炔氣焊，下列採行措施何者<strong>錯誤</strong>？</div>
+        <div class="radio-group" role="radiogroup">
+          <label class="radio-opt"><input type="radio" name="entry.532185394" value="作業範圍內易燃物已移除" required /><span class="radio-dot"></span>作業範圍內易燃物已移除</label>
+          <label class="radio-opt"><input type="radio" name="entry.532185394" value="無需取得動火作業核准" /><span class="radio-dot"></span>無需取得動火作業核准</label>
+          <label class="radio-opt"><input type="radio" name="entry.532185394" value="交流電焊機一次側已裝設漏電斷路器，二次側已裝設自動電擊防止裝置" /><span class="radio-dot"></span>交流電焊機一次側裝漏電斷路器，二次側裝自動電擊防止裝置</label>
+          <label class="radio-opt"><input type="radio" name="entry.532185394" value="氧乙炔氣焊機已裝設防止回火裝置" /><span class="radio-dot"></span>氧乙炔氣焊機已裝設防止回火裝置</label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /form-wrap -->
+
+<!-- SUBMIT -->
+<div class="submit-wrap">
+  <div id="formInner">
+    <button type="submit" class="btn-submit" id="submitBtn">送出訓練登記 →</button>
+    <p class="submit-note">資料將直接送入 Google 表單，送出即視同完成本次訓練登記。</p>
+  </div>
+  <div class="success-card" id="successCard">
+    <div class="success-icon">✓</div>
+    <div class="success-title">登記完成</div>
+    <div class="success-body">
+      感謝您完成安全衛生教育訓練登記。<br>
+      您的資料已成功送入系統，請保留此頁面作為紀錄。
+    </div>
+    <p class="success-en">Your registration has been submitted successfully to Google Forms.</p>
+  </div>
+</div>
+
+</form><!-- /mainForm -->
+
+<footer>
+  <p>© 2025 Realtek Semiconductor Corp. &nbsp;瑞昱半導體股份有限公司</p>
+  <p>Safety &amp; Health Department · 安全衛生部門</p>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.10 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  const FORM_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLSdbQGt1HYMtBycUR5vJHeFURFYtowakF_zNu1AEm9fnBbH4vg/formResponse';
+  const ID_RE = /^[A-Za-z][0-9]{9}$/;
+
+  function setErr(el, yes) {
+    if (yes) el.classList.add('err'); else el.classList.remove('err');
+  }
+
+  document.getElementById('mainForm').addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const company = document.getElementById('f-company');
+    const name    = document.getElementById('f-name');
+    const idNum   = document.getElementById('f-id');
+    const date    = document.getElementById('f-date');
+
+    let ok = true;
+
+    setErr(company, !company.value.trim()); if (!company.value.trim()) ok = false;
+    setErr(name,    !name.value.trim());    if (!name.value.trim())    ok = false;
+    setErr(idNum,   !ID_RE.test(idNum.value.trim())); if (!ID_RE.test(idNum.value.trim())) ok = false;
+    setErr(date,    !date.value);           if (!date.value)           ok = false;
+
+    // Check all required radio groups
+    const radioGroups = ['entry.1650749467','entry.1104087735',
+      'entry.125731587','entry.1103177906','entry.1514744174','entry.1544188210','entry.981799889',
+      'entry.1296077385','entry.1813206164','entry.632043508','entry.1466794690','entry.532185394'];
+    radioGroups.forEach(name => {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      if (!checked) { ok = false; }
+    });
+
+    if (!ok) {
+      const firstErr = document.querySelector('.err, input[type="radio"]:not(:checked)');
+      if (firstErr) firstErr.closest('.form-section, .submit-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
     }
 
-    function setFieldState(inputId, valid) {
-      const el = document.getElementById(inputId);
-      if (valid) {
-        el.classList.remove('invalid');
-      } else {
-        el.classList.add('invalid');
-      }
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '送出中⋯';
+    btn.disabled = true;
+
+    // Build form data
+    const data = new FormData();
+    data.append('entry.1281327973', company.value.trim());
+    data.append('entry.185951546',  name.value.trim());
+    data.append('entry.293336872',  idNum.value.trim());
+
+    // Date → year / month / day (Google Forms format)
+    const [yyyy, mm, dd] = date.value.split('-');
+    data.append('entry.715793541_year',  yyyy);
+    data.append('entry.715793541_month', String(parseInt(mm)));
+    data.append('entry.715793541_day',   String(parseInt(dd)));
+
+    // Radio answers
+    radioGroups.forEach(n => {
+      const el = document.querySelector(`input[name="${n}"]:checked`);
+      if (el) data.append(n, el.value);
+    });
+
+    try {
+      await fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data });
+    } catch (_) {
+      // no-cors always throws on response, data still goes through
     }
 
-    // Live-clear errors on change
-    ['email', 'company', 'name', 'idNumber'].forEach(id => {
-      document.getElementById(id).addEventListener('input', () => {
-        document.getElementById(id).classList.remove('invalid');
-      });
-    });
+    document.getElementById('formInner').style.display = 'none';
+    const sc = document.getElementById('successCard');
+    sc.classList.add('show');
+    sc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      const email    = document.getElementById('email').value;
-      const company  = document.getElementById('company').value.trim();
-      const name     = document.getElementById('name').value.trim();
-      const idNumber = document.getElementById('idNumber').value.trim();
-      const agreed   = document.getElementById('agree').checked;
-
-      const emailOk    = validateEmail(email);
-      const companyOk  = company.length > 0;
-      const nameOk     = name.length > 0;
-      const idOk       = ID_RE.test(idNumber);
-
-      setFieldState('email',    emailOk);
-      setFieldState('company',  companyOk);
-      setFieldState('name',     nameOk);
-      setFieldState('idNumber', idOk);
-
-      if (!emailOk || !companyOk || !nameOk || !idOk || !agreed) {
-        if (!agreed) {
-          document.getElementById('agree').style.outline = '2px solid var(--red)';
-        }
-        return;
-      }
-
-      submitBtn.textContent = '提交中⋯';
-      submitBtn.disabled = true;
-
-      // Simulate async submission
-      setTimeout(() => {
-        formCard.style.display = 'none';
-        successCard.classList.add('show');
-        successCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 900);
-    });
-
-    document.getElementById('agree').addEventListener('change', function () {
-      this.style.outline = '';
-    });
-  </script>
+  // Clear error on input
+  ['f-company','f-name','f-id','f-date'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() { this.classList.remove('err'); });
+  });
+</script>
 </body>
 </html>
