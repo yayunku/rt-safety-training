@@ -533,6 +533,93 @@
     if (fromStep === 2 && !validateStep2()) return;
     goToStep(fromStep + 1);
   }
+
+  const FORM_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLSedurwcoMq870khCe3e70xt-5zJQh85dVnoFzNT0KpbWHS4OA/formResponse';
+
+  const QUIZ = [
+    { id: 'entry.125731587',  label: 'Q1',  answer: 'O' },
+    { id: 'entry.1103177906', label: 'Q2',  answer: 'X' },
+    { id: 'entry.1514744174', label: 'Q3',  answer: 'O' },
+    { id: 'entry.1544188210', label: 'Q4',  answer: 'O' },
+    { id: 'entry.981799889',  label: 'Q5',  answer: 'O' },
+    { id: 'entry.1296077385', label: 'Q6',  answer: '兩公尺' },
+    { id: 'entry.1813206164', label: 'Q7',  answer: '以上皆是' },
+    { id: 'entry.632043508',  label: 'Q8',  answer: '以上皆是' },
+    { id: 'entry.1466794690', label: 'Q9',  answer: '以上皆是' },
+    { id: 'entry.532185394',  label: 'Q10', answer: '無需取得動火作業核准' },
+  ];
+
+  // 純函式：依目前選取狀態評分。掛在 window 供 console 驗證。
+  window.gradeQuiz = function gradeQuiz() {
+    const wrong = [];
+    QUIZ.forEach(q => {
+      if (getRadioValue(q.id) !== q.answer) wrong.push(q.label);
+    });
+    return { correct: QUIZ.length - wrong.length, total: QUIZ.length, wrong };
+  };
+
+  // 測驗是否每題皆已作答
+  function allQuizAnswered() {
+    return QUIZ.every(q => getRadioValue(q.id) !== null);
+  }
+
+  document.getElementById('mainForm').addEventListener('submit', async e => {
+    e.preventDefault();
+
+    // 保險起見再跑一次前面步驟驗證（理論上已通過才會到步驟 3）
+    if (!validateStep1()) { goToStep(1); return; }
+    if (!validateStep2()) { goToStep(2); return; }
+
+    // 測驗必須每題皆作答
+    const gate = document.getElementById('gate-3');
+    if (!allQuizAnswered()) {
+      gate.textContent = '請完成全部 10 題測驗後再送出。';
+      gate.classList.add('show');
+      return;
+    }
+    gate.classList.remove('show');
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '送出中⋯';
+    btn.disabled = true;
+
+    // 組 FormData
+    const data = new FormData();
+    data.append('entry.1281327973', document.getElementById('f-company').value.trim());
+    data.append('entry.185951546',  document.getElementById('f-name').value.trim());
+    data.append('entry.293336872',  document.getElementById('f-id').value.trim());
+
+    const [yyyy, mm, dd] = document.getElementById('f-date').value.split('-');
+    data.append('entry.715793541_year',  yyyy);
+    data.append('entry.715793541_month', String(parseInt(mm)));
+    data.append('entry.715793541_day',   String(parseInt(dd)));
+
+    data.append('entry.1650749467', getRadioValue('entry.1650749467'));
+    data.append('entry.1104087735', getRadioValue('entry.1104087735'));
+    QUIZ.forEach(q => data.append(q.id, getRadioValue(q.id)));
+
+    try {
+      await fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data });
+    } catch (_) {
+      // no-cors 一定會在讀 response 時 throw，資料仍已送出
+    }
+
+    // 評分並顯示成功畫面
+    const result = window.gradeQuiz();
+    const rEl = document.getElementById('quizResult');
+    if (result.wrong.length === 0) {
+      rEl.innerHTML = '<div class="quiz-result-score">測驗結果：' + result.correct + ' / ' + result.total + ' 分</div>'
+        + '<div class="quiz-result-perfect">✓ 全部答對，恭喜通過測驗！</div>';
+    } else {
+      rEl.innerHTML = '<div class="quiz-result-score">測驗結果：' + result.correct + ' / ' + result.total + ' 分</div>'
+        + '<div class="quiz-result-wrong">答錯題號：' + result.wrong.join('、')
+        + '<br>未達 100 分，煩請重新研讀教材相關內容。</div>';
+    }
+
+    document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('successCard').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 </script>
 </body>
 </html>
