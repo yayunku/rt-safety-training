@@ -403,10 +403,8 @@
 
     // 必選檢查
     if (eDate || !read || !agree) {
-      if (!read || !agree) {
-        gate.textContent = '請完成觀看確認與文件準備聲明後再繼續。';
-        gate.classList.add('show');
-      }
+      gate.textContent = '請完成觀看訓練教材日期、觀看確認與文件準備聲明後再繼續。';
+      gate.classList.add('show');
       return false;
     }
 
