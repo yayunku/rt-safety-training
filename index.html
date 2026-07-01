@@ -536,24 +536,45 @@
 
   const FORM_ENDPOINT = 'https://docs.google.com/forms/d/e/1FAIpQLSedurwcoMq870khCe3e70xt-5zJQh85dVnoFzNT0KpbWHS4OA/formResponse';
 
+  // Correct answers are stored obfuscated (see `enc`), not plaintext, so they are
+  // not readable from view-source at a glance. Each `enc` is a random 4-byte salt
+  // followed by the UTF-8 answer XORed with both ANSWER_KEY and the salt, base64'd.
+  // The per-question salt means identical answers produce different ciphertext, so
+  // you cannot even tell which questions share an answer. This is casual concealment
+  // only — a client-side quiz can never keep answers truly secret. Grading still
+  // happens fully client-side. See docs/superpowers/specs/.
+  const ANSWER_KEY = 'rtk-safety-2026';
+  const KEY_BYTES = new TextEncoder().encode(ANSWER_KEY);
+  const SALT_LEN = 4;
+  function deobfuscate(enc) {
+    const bin = atob(enc);
+    const raw = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) raw[i] = bin.charCodeAt(i);
+    const salt = raw.subarray(0, SALT_LEN);
+    const body = raw.subarray(SALT_LEN);
+    const out = new Uint8Array(body.length);
+    for (let i = 0; i < body.length; i++) out[i] = body[i] ^ KEY_BYTES[i % KEY_BYTES.length] ^ salt[i % SALT_LEN];
+    return new TextDecoder().decode(out);
+  }
+
   const QUIZ = [
-    { id: 'entry.125731587',  label: 'Q1',  answer: 'O' },
-    { id: 'entry.1103177906', label: 'Q2',  answer: 'X' },
-    { id: 'entry.1514744174', label: 'Q3',  answer: 'O' },
-    { id: 'entry.1544188210', label: 'Q4',  answer: 'O' },
-    { id: 'entry.981799889',  label: 'Q5',  answer: 'O' },
-    { id: 'entry.1296077385', label: 'Q6',  answer: '兩公尺' },
-    { id: 'entry.1813206164', label: 'Q7',  answer: '以上皆是' },
-    { id: 'entry.632043508',  label: 'Q8',  answer: '以上皆是' },
-    { id: 'entry.1466794690', label: 'Q9',  answer: '以上皆是' },
-    { id: 'entry.532185394',  label: 'Q10', answer: '無需取得動火作業核准' },
+    { id: 'entry.125731587',  label: 'Q1',  enc: 'AS6rNDw=' },
+    { id: 'entry.1103177906', label: 'Q2',  enc: 'mWtO/LM=' },
+    { id: 'entry.1514744174', label: 'Q3',  enc: 'zUVOiPA=' },
+    { id: 'entry.1544188210', label: 'Q4',  enc: 'VAy4y2k=' },
+    { id: 'entry.981799889',  label: 'Q5',  enc: '1JXMrek=' },
+    { id: 'entry.1296077385', label: 'Q6',  enc: '/ChP0mvZjRoK5cwHMg==' },
+    { id: 'entry.1813206164', label: 'Q7',  enc: 'qrjxmDx3P1FhU3BnWCdEBQ==' },
+    { id: 'entry.632043508',  label: 'Q8',  enc: 'uzgqBC335M1w06v7SaefmQ==' },
+    { id: 'entry.1466794690', label: 'Q9',  enc: '3h/aHUjQFNQV9FviLIBvgA==' },
+    { id: 'entry.532185394',  label: 'Q10', enc: 'YltFIferj+WNusbLgMfWhLfi5rSXm4zvn9uF+P3Wz/TX6w==' },
   ];
 
   // Pure function: grade by current selections. Exposed on window for console checks.
   window.gradeQuiz = function gradeQuiz() {
     const wrong = [];
     QUIZ.forEach(q => {
-      if (getRadioValue(q.id) !== q.answer) wrong.push(q.label);
+      if (getRadioValue(q.id) !== deobfuscate(q.enc)) wrong.push(q.label);
     });
     return { correct: QUIZ.length - wrong.length, total: QUIZ.length, wrong };
   };
@@ -583,8 +604,12 @@
     btn.textContent = '送出中⋯';
     btn.disabled = true;
 
-    // Build FormData
-    const data = new FormData();
+    // Build the submission body as urlencoded (URLSearchParams). This form is a
+    // multi-page Google Form (基本資料 / 教材 / 測驗); a direct POST must send
+    // pageHistory=0,1,2 (and fvv=1) so the server accepts fields on pages after
+    // the first. Without it, all radio answers (pages 2-3) are silently dropped
+    // while the request still returns HTTP 200. See docs/superpowers/specs/.
+    const data = new URLSearchParams();
     data.append('entry.1281327973', document.getElementById('f-company').value.trim());
     data.append('entry.185951546',  document.getElementById('f-name').value.trim());
     data.append('entry.293336872',  document.getElementById('f-id').value.trim());
@@ -597,6 +622,9 @@
     data.append('entry.1650749467', getRadioValue('entry.1650749467'));
     data.append('entry.1104087735', getRadioValue('entry.1104087735'));
     QUIZ.forEach(q => data.append(q.id, getRadioValue(q.id)));
+
+    data.append('pageHistory', '0,1,2');
+    data.append('fvv', '1');
 
     try {
       // no-cors POST resolves on success (opaque response, no body/status readable);
