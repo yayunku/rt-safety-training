@@ -474,7 +474,7 @@
     return !(eCompany || eName || eId);
   }
 
-  // 輸入時清除該欄錯誤
+  // Clear a field's error state on input
   ['f-company','f-name','f-id'].forEach(id => {
     document.getElementById(id).addEventListener('input', function () {
       this.classList.remove('err');
@@ -501,14 +501,14 @@
     const read  = getRadioValue('entry.1650749467');
     const agree = getRadioValue('entry.1104087735');
 
-    // 必選檢查
+    // Required-field check
     if (eDate || !read || !agree) {
       gate.textContent = '請完成觀看訓練教材日期、觀看確認與文件準備聲明後再繼續。';
       gate.classList.add('show');
       return false;
     }
 
-    // gating：否 / 不同意 擋住
+    // Gating: block on 否 / 不同意
     if (read === '否') {
       gate.textContent = '您必須確實且完整觀看全部訓練教材後，選擇「是」才能繼續進行測驗。';
       gate.classList.add('show');
@@ -522,7 +522,7 @@
     return true;
   }
 
-  // 選日期時清除錯誤
+  // Clear date error when a date is picked
   document.getElementById('f-date').addEventListener('input', function () {
     this.classList.remove('err');
     document.getElementById('err-date').classList.remove('show');
@@ -549,7 +549,7 @@
     { id: 'entry.532185394',  label: 'Q10', answer: '無需取得動火作業核准' },
   ];
 
-  // 純函式：依目前選取狀態評分。掛在 window 供 console 驗證。
+  // Pure function: grade by current selections. Exposed on window for console checks.
   window.gradeQuiz = function gradeQuiz() {
     const wrong = [];
     QUIZ.forEach(q => {
@@ -558,7 +558,7 @@
     return { correct: QUIZ.length - wrong.length, total: QUIZ.length, wrong };
   };
 
-  // 測驗是否每題皆已作答
+  // Whether every quiz question has been answered
   function allQuizAnswered() {
     return QUIZ.every(q => getRadioValue(q.id) !== null);
   }
@@ -566,11 +566,11 @@
   document.getElementById('mainForm').addEventListener('submit', async e => {
     e.preventDefault();
 
-    // 保險起見再跑一次前面步驟驗證（理論上已通過才會到步驟 3）
+    // Re-validate earlier steps as a safeguard (should already pass to reach step 3)
     if (!validateStep1()) { goToStep(1); return; }
     if (!validateStep2()) { goToStep(2); return; }
 
-    // 測驗必須每題皆作答
+    // Quiz requires every question answered
     const gate = document.getElementById('gate-3');
     if (!allQuizAnswered()) {
       gate.textContent = '請完成全部 10 題測驗後再送出。';
@@ -583,7 +583,7 @@
     btn.textContent = '送出中⋯';
     btn.disabled = true;
 
-    // 組 FormData
+    // Build FormData
     const data = new FormData();
     data.append('entry.1281327973', document.getElementById('f-company').value.trim());
     data.append('entry.185951546',  document.getElementById('f-name').value.trim());
@@ -610,7 +610,7 @@
       return;
     }
 
-    // 評分並顯示成功畫面
+    // Grade and show the success screen
     gate.classList.remove('show');
     const result = window.gradeQuiz();
     const rEl = document.getElementById('quizResult');
