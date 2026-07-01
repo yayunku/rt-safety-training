@@ -213,7 +213,23 @@
         <div><div class="step-title-cn">基本資料</div><div class="step-title-en">Personal Information</div></div>
       </div>
       <div class="step-body" id="body-1">
-        <!-- Task 2 填入 -->
+        <div class="field">
+          <div class="field-label"><span class="label-cn">承攬商名稱</span><span class="label-en">Contractor Company</span><span class="req">＊</span></div>
+          <input type="text" id="f-company" name="entry.1281327973" placeholder="請填寫公司全稱" />
+          <div class="field-hint">Example: ○○工程有限公司（請填寫公司全稱）</div>
+          <div class="err-msg" id="err-company">請填寫承攬商名稱</div>
+        </div>
+        <div class="field">
+          <div class="field-label"><span class="label-cn">訓練人員姓名</span><span class="label-en">Trainee Name</span><span class="req">＊</span></div>
+          <input type="text" id="f-name" name="entry.185951546" placeholder="請填寫中文姓名" autocomplete="name" />
+          <div class="err-msg" id="err-name">請填寫訓練人員姓名</div>
+        </div>
+        <div class="field">
+          <div class="field-label"><span class="label-cn">訓練人員身分證字號</span><span class="label-en">National ID Number</span><span class="req">＊</span></div>
+          <input type="text" id="f-id" name="entry.293336872" placeholder="A123456789" maxlength="10" />
+          <div class="field-hint">Format: 1 letter + 9 digits ·  格式：首碼英文字母 + 9 碼數字</div>
+          <div class="err-msg" id="err-id">身分證字號格式不正確（1 碼英文字母 + 9 碼數字）</div>
+        </div>
       </div>
     </div>
     <div class="wizard-nav">
@@ -293,8 +309,37 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Task 2/3 會覆寫這個函式以加入各步驟驗證；先實作為無條件前進
+  const ID_RE = /^[A-Za-z][0-9]{9}$/;
+
+  function setFieldErr(inputId, errId, hasErr) {
+    document.getElementById(inputId).classList.toggle('err', hasErr);
+    document.getElementById(errId).classList.toggle('show', hasErr);
+  }
+
+  function validateStep1() {
+    const company = document.getElementById('f-company');
+    const name    = document.getElementById('f-name');
+    const idNum   = document.getElementById('f-id');
+    const eCompany = !company.value.trim();
+    const eName    = !name.value.trim();
+    const eId      = !ID_RE.test(idNum.value.trim());
+    setFieldErr('f-company', 'err-company', eCompany);
+    setFieldErr('f-name', 'err-name', eName);
+    setFieldErr('f-id', 'err-id', eId);
+    return !(eCompany || eName || eId);
+  }
+
+  // 輸入時清除該欄錯誤
+  ['f-company','f-name','f-id'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function () {
+      this.classList.remove('err');
+      const em = this.parentElement.querySelector('.err-msg');
+      if (em) em.classList.remove('show');
+    });
+  });
+
   function attemptNext(fromStep) {
+    if (fromStep === 1 && !validateStep1()) return;
     goToStep(fromStep + 1);
   }
 </script>
