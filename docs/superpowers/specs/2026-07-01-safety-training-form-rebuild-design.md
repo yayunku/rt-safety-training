@@ -9,7 +9,7 @@
 比對後發現兩個關鍵落差：
 
 1. 真正的表單有一個「電子郵件」必填欄位，且是 Google 的**驗證式電子郵件**（欄位 readonly、自動帶入登入者帳號），這代表**填寫人必須先登入 Google 帳號才能送出**。目前 index.html 完全沒有處理這個欄位。
-2. 實測直接 POST 到原表單的 `formResponse` 網址會回傳 **HTTP 401**（伺服器端擋下未登入的請求），證實現行「hidden iframe 直接 POST」的送出技巧已經失效。
+2. 實測直接 POST 到原表單的 `formResponse` 網址會回傳 **HTTP 401**（伺服器端擋下未登入的請求），證實現行「`fetch(..., {mode:'no-cors'})` 直接 POST」的送出技巧已經失效。
 
 為了解決這個問題，使用者已經**複製了一份表單副本**並關閉「收集電子郵件地址」設定（改為「不收集」），本設計文件之後的所有實作都會指向這個副本。
 
@@ -74,7 +74,7 @@
 ## 送出流程
 
 1. 使用者完成步驟 1、2（含驗證）與步驟 3 全部作答（10 題皆需選填，但不要求全對）
-2. 點擊送出：透過 hidden iframe + 表單 POST 方式，將所有 entry 值送到副本表單的 `formResponse` 端點
+2. 點擊送出：透過 `fetch(FORM_ENDPOINT, {method:'POST', mode:'no-cors', body: data})` 方式，將所有 entry 值送到副本表單的 `formResponse` 端點（沿用現行 index.html 的做法，不用 hidden iframe）
 3. 送出後顯示完成畫面：感謝訊息＋測驗結果摘要（答對題數、答錯題號列表）
 
 ## 交付與部署
