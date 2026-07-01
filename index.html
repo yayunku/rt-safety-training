@@ -10,21 +10,21 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:           #070C1A;
-      --surface:      #0D1526;
-      --surface-2:    #141E32;
-      --border:       #1C2B42;
-      --blue:         #4B8DDF;
-      --blue-light:   #6AA3F0;
-      --blue-dim:     rgba(75, 141, 223, 0.12);
-      --amber:        #F0A030;
-      --amber-dim:    rgba(240, 160, 48, 0.10);
-      --amber-glow:   rgba(240, 160, 48, 0.22);
-      --red:          #E05252;
-      --green:        #34C97A;
-      --text:         #DDE8F5;
-      --text-secondary: #6E85A0;
-      --text-muted:   #3D526A;
+      --bg:           #F4F7FB;
+      --surface:      #FFFFFF;
+      --surface-2:    #EEF2F8;
+      --border:       #D5DDE9;
+      --blue:         #1E5CC8;
+      --blue-light:   #2D6FE0;
+      --blue-dim:     rgba(30, 92, 200, 0.08);
+      --amber:        #C47A00;
+      --amber-dim:    rgba(196, 122, 0, 0.08);
+      --amber-glow:   rgba(196, 122, 0, 0.20);
+      --red:          #C0392B;
+      --green:        #1A7F4B;
+      --text:         #0E1A2E;
+      --text-secondary: #4A607A;
+      --text-muted:   #8A9DB5;
       --cn:           'Noto Sans TC', sans-serif;
       --en:           'Inter', sans-serif;
       --radius:       10px;
@@ -47,7 +47,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(7, 12, 26, 0.88);
+      background: rgba(244, 247, 251, 0.92);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
@@ -106,7 +106,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background-image: radial-gradient(circle at 0 0, rgba(240, 160, 48, 0.20) 1.5px, transparent 0);
+      background-image: radial-gradient(circle at 0 0, rgba(196, 122, 0, 0.22) 1.5px, transparent 0);
       background-size: 36px 36px;
       mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 20%, transparent 75%);
       -webkit-mask-image: radial-gradient(ellipse 90% 100% at 50% 0%, black 20%, transparent 75%);
@@ -121,7 +121,7 @@
       transform: translateX(-50%);
       width: 700px;
       height: 360px;
-      background: radial-gradient(ellipse, rgba(75, 141, 223, 0.10) 0%, transparent 68%);
+      background: radial-gradient(ellipse, rgba(30, 92, 200, 0.07) 0%, transparent 68%);
       pointer-events: none;
     }
 
@@ -173,7 +173,7 @@
 
     .hero-title em {
       font-style: normal;
-      color: var(--blue-light);
+      color: var(--blue);
     }
 
     .hero-subtitle {
@@ -237,12 +237,12 @@
       border-left: 3px solid var(--amber);
       border-radius: var(--radius);
       padding: 26px 24px;
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 1px 3px rgba(14,26,46,0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      border-color: var(--amber);
-      border-left-color: var(--amber);
+      box-shadow: 0 4px 16px rgba(14,26,46,0.12);
       transform: translateY(-3px);
     }
 
@@ -292,7 +292,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.3);
+      box-shadow: 0 1px 4px rgba(14,26,46,0.06), 0 4px 20px rgba(14,26,46,0.08);
     }
 
     .form-header {
@@ -363,8 +363,8 @@
     input[type="text"],
     input[type="email"] {
       width: 100%;
-      background: var(--bg);
-      border: 1px solid #243044;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 11px 14px;
       font-family: var(--cn);
@@ -425,9 +425,9 @@
     input[type="checkbox"] {
       width: 16px;
       height: 16px;
-      border: 1.5px solid #243044;
+      border: 1.5px solid var(--border);
       border-radius: 3px;
-      background: var(--bg);
+      background: var(--surface);
       -webkit-appearance: none;
       appearance: none;
       cursor: pointer;
