@@ -181,6 +181,24 @@
     .quiz-result-wrong { color:var(--red); font-size:13px; }
     .quiz-result-perfect { color:var(--green); font-size:13px; }
 
+    /* DIGITAL BADGE (success screen) */
+    .badge-block { margin:26px auto 0; max-width:520px; padding-top:22px; border-top:1px solid var(--border); }
+    .badge-block-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:16px; }
+    .badge-block-grid { display:flex; gap:22px; align-items:flex-start; justify-content:center; flex-wrap:wrap; }
+    .badge-preview { width:210px; flex:0 0 auto; }
+    .badge-preview svg { width:100%; height:auto; display:block; border-radius:14px; box-shadow:var(--card-shadow); }
+    .badge-qr-col { width:200px; flex:0 0 auto; }
+    .badge-qr svg { width:170px; height:170px; display:block; margin:0 auto; padding:6px;
+      background:#fff; border:1px solid var(--border); border-radius:8px; }
+    .badge-qr-hint { font-size:12px; color:var(--text-secondary); margin-top:10px; line-height:1.6; text-align:center; }
+    .badge-actions { display:flex; gap:10px; justify-content:center; margin-top:20px; flex-wrap:wrap; }
+    .badge-actions button { padding:11px 18px; border-radius:var(--radius-sm); border:1px solid var(--border);
+      background:var(--surface); color:var(--text); font-family:var(--cn); font-size:14px; cursor:pointer;
+      transition:filter .15s; }
+    .badge-actions button:first-child { background:var(--blue); color:#fff; border-color:var(--blue); }
+    .badge-actions button:hover:not(:disabled) { filter:brightness(0.95); }
+    .badge-actions button:disabled { opacity:0.6; cursor:not-allowed; }
+
     footer { border-top:1px solid var(--border); padding:24px 40px; text-align:center; font-family:var(--en); font-size:11px; color:var(--text-muted); line-height:1.8; }
 
     @media (max-width:600px) {
@@ -533,6 +551,22 @@
       感謝您完成安全衛生教育訓練登記。<br>您的資料已成功送入系統，請保留此頁面作為紀錄。
     </div>
     <div class="quiz-result" id="quizResult"></div>
+
+    <div class="badge-block" id="badgeArea" hidden>
+      <div class="badge-block-title">你的數位承攬商識別證</div>
+      <div class="badge-block-grid">
+        <div class="badge-preview" id="badgePreview"></div>
+        <div class="badge-qr-col">
+          <div class="badge-qr" id="badgeQR"></div>
+          <div class="badge-qr-hint">請用手機掃描，開啟你的數位識別證。<br>入廠時出示，警衛可掃描證上的 QR 查驗。</div>
+        </div>
+      </div>
+      <div class="badge-actions">
+        <button type="button" id="btn-badge-open">開啟識別證</button>
+        <button type="button" id="btn-badge-png">下載圖片</button>
+        <button type="button" id="btn-badge-print">列印</button>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -543,6 +577,7 @@
   <p>Occupational Safety and Health Center · 職業安全衛生中心</p>
 </footer>
 
+<script src="badge.js"></script>
 <script>
   window.__currentStep = 1;
 
@@ -815,10 +850,41 @@
     rEl.innerHTML = '<div class="quiz-result-score">測驗結果：' + result.correct + ' / ' + result.total + ' 分</div>'
       + '<div class="quiz-result-perfect">✓ 全部答對，恭喜通過測驗！</div>';
 
+    // Issue the digital contractor badge. It is a bonus on top of a successful
+    // submission, so a failure here must never hide the success screen.
+    try {
+      renderBadgeArea(RealtekBadge.makeBadgeData({
+        name:         document.getElementById('f-name').value.trim(),
+        idNumber:     document.getElementById('f-id').value.trim(),
+        company:      document.getElementById('f-company').value.trim(),
+        trainingDate: document.getElementById('f-date').value,
+      }));
+    } catch (err) {
+      console.error('badge generation failed', err);
+    }
+
     document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
     document.getElementById('successCard').classList.add('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+  // Badge preview + QR + actions on the success screen. The QR and the badge's
+  // own small QR point at the same badge.html URL.
+  function renderBadgeArea(data) {
+    const url = RealtekBadge.badgeUrl(data);
+    document.getElementById('badgePreview').innerHTML = RealtekBadge.renderSVG(data, { mode: 'screen', url });
+    document.getElementById('badgeQR').innerHTML = RealtekBadge.qrSVG(url, 170);
+    document.getElementById('badgeArea').hidden = false;
+
+    document.getElementById('btn-badge-open').onclick = () => window.open(url, '_blank', 'noopener');
+    document.getElementById('btn-badge-png').onclick = function () {
+      this.disabled = true;
+      RealtekBadge.downloadPNG(data, { url })
+        .catch(() => alert('圖片產生失敗，請改用列印或手機截圖。'))
+        .then(() => { this.disabled = false; });
+    };
+    document.getElementById('btn-badge-print').onclick = () => RealtekBadge.printBadge(data, { url });
+  }
 </script>
 </body>
 </html>
