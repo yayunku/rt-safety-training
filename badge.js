@@ -152,7 +152,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     }
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">`
       + `<rect width="${size}" height="${size}" fill="#fff"/>`
-      + `<path d="${d}" fill="${fg || '#0b2447'}"/></svg>`;
+      + `<path d="${d}" fill="${fg || '#00405E'}"/></svg>`;
   }
   function qrPathData(text, box, pad) {
     const q = qrModules(text);
@@ -205,10 +205,12 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     const expired = statusOf(data, opts.today) === 'expired';
     const uid = 'b' + (++uidSeq);
 
+    // Card blue is the Realtek logo blue (#0078AF) with a darker top and bottom,
+    // kept dark enough for white text to stay legible (contrast >= 4.9:1).
     const bg = expired
       ? ['#3c4552', '#5a6472', '#333b46']
-      : ['#0d2b53', '#1a4a86', '#0b2447'];
-    const panel = expired ? '#dcdee2' : '#dfe5ee';
+      : ['#00618F', '#0078AF', '#00527A'];
+    const panel = expired ? '#dcdee2' : '#E2EAF1';
 
     let s = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" `
       + `viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" `
@@ -227,13 +229,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     s += `<rect x="16" y="70" width="308" height="386" rx="12" fill="${panel}"/>`;
 
     // Photo slot (Realtek logo stands in for a portrait)
-    s += `<rect x="34" y="90" width="92" height="92" rx="8" fill="#c7d0dd"/>`
+    s += `<rect x="34" y="90" width="92" height="92" rx="8" fill="#C3D6E3"/>`
       + `<image x="42" y="112" width="76" height="48" preserveAspectRatio="xMidYMid meet" href="${LOGO_DATA_URI}" xlink:href="${LOGO_DATA_URI}"/>`;
 
     // Verification QR (same URL as the badge itself)
     s += `<rect x="214" y="90" width="92" height="92" rx="8" fill="#fff"/>`
-      + `<g transform="translate(214,90)"><path d="${qrPathData(url, 92, 7)}" fill="#0b2447"/></g>`
-      + `<text x="260" y="196" text-anchor="middle" fill="#41556f" font-size="9" letter-spacing="0.5">掃碼驗證 | SCAN</text>`;
+      + `<g transform="translate(214,90)"><path d="${qrPathData(url, 92, 7)}" fill="#00405E"/></g>`
+      + `<text x="260" y="196" text-anchor="middle" fill="#2F5B74" font-size="9" letter-spacing="0.5">掃碼驗證 | SCAN</text>`;
 
     // Status
     if (expired) {
@@ -243,7 +245,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       s += `<rect x="40" y="185" width="80" height="22" rx="11" fill="#1a7f4b"/>`
         + `<text x="80" y="200" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">有效</text>`;
     } else {
-      s += `<text x="34" y="200" fill="#55637a" font-size="9">即時狀態請掃描 QR 驗證</text>`;
+      s += `<text x="34" y="200" fill="#4B6577" font-size="9">即時狀態請掃描 QR 驗證</text>`;
     }
 
     // Fields
@@ -251,9 +253,9 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
       const top = 224 + i * 46;
       const raw = f.key === 's' ? String(data.s || '').replace('T', ' ') : data[f.key];
       const size = fitSize(raw, 17, 15, 9.5);
-      s += `<text x="34" y="${top}" fill="#55637a" font-size="10" letter-spacing="0.3">${esc(f.cn)} ${esc(f.en)}:</text>`
-        + `<text x="34" y="${top + 21}" fill="#10233f" font-size="${size}" font-weight="700">${esc(raw)}</text>`
-        + `<line x1="34" y1="${top + 28}" x2="306" y2="${top + 28}" stroke="#a8b4c6" stroke-width="1"/>`;
+      s += `<text x="34" y="${top}" fill="#4B6577" font-size="10" letter-spacing="0.3">${esc(f.cn)} ${esc(f.en)}:</text>`
+        + `<text x="34" y="${top + 21}" fill="#0B3247" font-size="${size}" font-weight="700">${esc(raw)}</text>`
+        + `<line x1="34" y1="${top + 28}" x2="306" y2="${top + 28}" stroke="#9FB6C6" stroke-width="1"/>`;
     });
 
     // Footer
