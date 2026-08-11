@@ -10,7 +10,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg:#F4F7FB; --surface:#FFFFFF; --surface-2:#EEF2F8; --border:#D5DDE9;
-      --blue:#1E5CC8; --blue-light:#2D6FE0; --blue-dim:rgba(30,92,200,0.08);
+      /* Realtek logo blue, taken from the logo PNG's palette */
+      --blue:#0078AF; --blue-light:#0A8AC6; --blue-dim:rgba(0,120,175,0.09);
       --amber:#C47A00; --amber-dim:rgba(196,122,0,0.08); --amber-glow:rgba(196,122,0,0.20);
       --red:#C0392B; --red-dim:rgba(192,57,43,0.08);
       --green:#1A7F4B; --green-dim:rgba(26,127,75,0.10);
@@ -106,7 +107,7 @@
       border-radius:var(--radius-sm); padding:11px 14px; font-family:var(--cn); font-size:15px; color:var(--text);
       outline:none; transition:border-color .15s, box-shadow .15s; -webkit-appearance:none; }
     input::placeholder { color:var(--text-muted); font-weight:400; }
-    input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(30,92,200,0.10); }
+    input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,120,175,0.14); }
     input:disabled { background:var(--surface-2); color:var(--text-muted); cursor:not-allowed; }
     input.err { border-color:var(--red); box-shadow:0 0 0 3px rgba(192,57,43,0.08); }
     .err-msg { display:none; color:var(--red); font-size:12px; margin-top:5px; }
