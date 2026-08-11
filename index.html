@@ -29,8 +29,8 @@
       display:flex; align-items:center; justify-content:space-between; }
     .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
     .brand-logo { height:34px; width:auto; display:block; }
-    .nav-wordmark { font-family:var(--en); font-size:14px; font-weight:600; letter-spacing:0.08em; color:var(--text); }
-    .nav-badge { font-size:12px; color:var(--text-secondary); }
+    .nav-wordmark { font-family:var(--en); font-size:20px; font-weight:600; letter-spacing:0.08em; color:var(--text); }
+    .nav-badge { font-size:16px; font-weight:500; color:var(--text-secondary); }
 
     /* HERO */
     .hero { position:relative; padding:72px 40px 40px; text-align:center; overflow:hidden; }
@@ -107,6 +107,7 @@
       outline:none; transition:border-color .15s, box-shadow .15s; -webkit-appearance:none; }
     input::placeholder { color:var(--text-muted); font-weight:400; }
     input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(30,92,200,0.10); }
+    input:disabled { background:var(--surface-2); color:var(--text-muted); cursor:not-allowed; }
     input.err { border-color:var(--red); box-shadow:0 0 0 3px rgba(192,57,43,0.08); }
     .err-msg { display:none; color:var(--red); font-size:12px; margin-top:5px; }
     .err-msg.show { display:block; }
@@ -140,6 +141,28 @@
     .q-text { font-size:14px; font-weight:500; color:var(--text); margin-bottom:12px; line-height:1.6; }
     .section-note { background:var(--amber-dim); border:1px solid var(--amber-glow); border-radius:var(--radius-sm);
       padding:12px 16px; font-size:13px; color:var(--amber); margin-bottom:24px; }
+    /* A question flagged wrong after a failed submit attempt */
+    .quiz-q.wrong { border-left:3px solid var(--red); background:var(--red-dim); border-radius:var(--radius-sm);
+      padding:12px 14px; margin-left:-14px; }
+    .quiz-q.wrong .q-num { color:var(--red); }
+    .quiz-q.wrong::after { content:'答錯，請重新作答'; display:block; margin-top:8px; font-size:12px; color:var(--red); }
+    /* PRIVACY NOTICE (Step 1 gate) */
+    .privacy-field { margin-bottom:24px; padding-bottom:22px; border-bottom:1px solid var(--border); }
+    .privacy-box { max-height:200px; overflow-y:auto; background:var(--surface-2); border:1px solid var(--border);
+      border-radius:var(--radius-sm); padding:14px 18px; font-size:13px; line-height:1.8; color:var(--text-secondary); }
+    .privacy-box h4 { font-size:13px; font-weight:600; color:var(--text); margin:14px 0 4px; }
+    .privacy-box h4:first-child { margin-top:0; }
+    .privacy-box h5 { font-size:13px; font-weight:500; color:var(--text); margin:8px 0 2px; }
+    .privacy-box p { margin-bottom:8px; }
+    .privacy-box ol, .privacy-box ul { margin:0 0 8px 20px; }
+    .privacy-box li { margin-bottom:2px; }
+    .privacy-box .privacy-sign { margin-top:14px; color:var(--text); font-weight:500; }
+    .privacy-check { display:flex; align-items:flex-start; gap:10px; margin-top:12px; cursor:pointer;
+      font-size:14px; line-height:1.6; color:var(--text); user-select:none; }
+    .privacy-check input[type="checkbox"] { width:17px; height:17px; margin-top:3px; flex-shrink:0;
+      accent-color:var(--blue); cursor:pointer; }
+    .privacy-check.err { color:var(--red); }
+    .privacy-check.err input[type="checkbox"] { outline:2px solid var(--red); outline-offset:2px; }
     .agree-card { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 18px; margin-bottom:16px; margin-top:20px; }
     .agree-title { font-size:13px; font-weight:600; color:var(--text); margin-bottom:8px; }
     .agree-body { font-size:13px; color:var(--text-secondary); line-height:1.65; }
@@ -213,6 +236,92 @@
         <div><div class="step-title-cn">基本資料</div><div class="step-title-en">Personal Information</div></div>
       </div>
       <div class="step-body" id="body-1">
+        <div class="privacy-field">
+          <div class="field-label"><span class="label-cn">個資宣告</span><span class="label-en">Privacy Notice</span><span class="req">＊</span></div>
+          <div class="privacy-box" id="privacy-box" tabindex="0" role="region" aria-label="個人資料保護暨隱私權聲明">
+            <h4>個人資料保護暨隱私權聲明</h4>
+            <p>瑞昱半導體股份有限公司（以下稱「本公司」）尊重並重視您的隱私權及個人資料保護。本公司依據中華民國《個人資料保護法》及相關法令規定，制定本個人資料保護暨隱私權聲明（以下稱「本聲明」），說明本公司於您使用本公司網站及相關服務時，對於個人資料之蒐集、處理及利用方式。</p>
+
+            <h4>一、個人資料之蒐集</h4>
+            <p>當您瀏覽或使用本公司網站、填寫聯絡表單、提交產品或服務相關詢問、應徵職缺、參與活動或使用本公司所提供之其他服務時，本公司可能依實際服務需求蒐集您主動提供之個人資料。</p>
+            <p>前述個人資料可能包括姓名、電子郵件地址、電話號碼、公司名稱、職稱、聯絡地址、履歷及其他您於使用相關服務時所提供之資訊。</p>
+            <p>此外，本公司於您使用網站時，可能依網站運作及資訊安全所需，蒐集相關技術資料，例如 IP 位址、瀏覽時間、瀏覽頁面、裝置及瀏覽器資訊等。上述資料於與特定個人產生連結時，可能構成個人資料。</p>
+
+            <h4>二、個人資料蒐集之目的</h4>
+            <p>本公司蒐集、處理及利用您的個人資料，係基於下列特定目的及業務所需：</p>
+            <ol>
+              <li>提供、維護及改善本公司網站與相關服務。</li>
+              <li>回覆您的詢問、意見或服務需求。</li>
+              <li>辦理產品、技術、業務或其他相關事項之聯繫與服務。</li>
+              <li>辦理人才招募、履歷審查、面試及相關人事作業。</li>
+              <li>辦理活動報名、通知及相關行政作業。</li>
+              <li>進行網站管理、資訊安全、系統維運及服務品質改善。</li>
+              <li>履行法定義務、契約義務或依法配合主管機關之要求。</li>
+              <li>其他於蒐集時所明確告知之特定目的。</li>
+            </ol>
+
+            <h4>三、個人資料之類別</h4>
+            <p>依不同服務或使用情境，本公司可能蒐集之個人資料類別，包括但不限於：</p>
+            <ol>
+              <li>識別類資料，例如姓名、身分識別資訊。</li>
+              <li>聯絡類資料，例如電話、電子郵件、地址。</li>
+              <li>就業及其他相關資料，例如公司名稱、職稱、學經歷及履歷資訊。</li>
+              <li>網站使用及技術資訊，例如 IP 位址、瀏覽紀錄、裝置資訊及其他網站使用資訊。</li>
+              <li>其他您於使用本公司網站或服務時主動提供之個人資料。</li>
+            </ol>
+            <p>如涉及《個人資料保護法》所定之特種個人資料，本公司將依相關法令規定辦理，並於必要時另行取得您的同意。</p>
+
+            <h4>四、個人資料利用之期間、地區、對象及方式</h4>
+            <h5>1. 利用期間</h5>
+            <p>於蒐集目的存續期間、依法令或契約所定之保存期間，或本公司因業務及法令遵循所必要之期間內利用您的個人資料。</p>
+            <h5>2. 利用地區</h5>
+            <p>原則上於中華民國境內利用；如因本公司業務、資訊系統、服務提供或其他合法目的而有跨境利用之必要，本公司將依適用法令辦理。</p>
+            <h5>3. 利用對象</h5>
+            <p>除本公司內部相關單位外，於提供服務或履行業務必要範圍內，可能提供予本公司之關係企業、受本公司委託處理相關業務之服務提供者，以及依法有權取得資料之政府機關或其他依法得提供之對象。</p>
+            <p>本公司將要求相關受託或合作對象依適用法令及契約約定妥善保護個人資料。</p>
+            <h5>4. 利用方式</h5>
+            <p>本公司可能以電子文件、紙本、電話、電子郵件、網站系統或其他合法方式，於蒐集目的之必要範圍內處理及利用您的個人資料。</p>
+
+            <h4>五、個人資料之安全維護</h4>
+            <p>本公司採取適當之管理、技術及其他安全措施，以防止個人資料遭未經授權之存取、洩漏、竄改、毀損、遺失或其他侵害。</p>
+            <p>本公司亦將依相關法令及實際業務需求，持續檢視並適度調整個人資料安全維護措施。</p>
+
+            <h4>六、Cookie 及網站相關技術</h4>
+            <p>為提供正常網站功能、改善使用體驗、分析網站使用情形及維護資訊安全，本公司網站可能使用 Cookie 或其他類似技術。</p>
+            <p>您可透過瀏覽器設定管理或拒絕 Cookie；惟部分網站功能可能因此無法正常使用。</p>
+            <p>如本公司網站使用第三方分析、廣告或其他服務所提供之 Cookie 或類似技術，將依相關服務及適用法令另行提供必要之說明。</p>
+
+            <h4>七、個人資料當事人之權利</h4>
+            <p>依《個人資料保護法》及相關法令規定，您得就本人之個人資料向本公司行使下列權利：</p>
+            <ol>
+              <li>查詢或請求閱覽。</li>
+              <li>請求製給複製本。</li>
+              <li>請求補充或更正。</li>
+              <li>請求停止蒐集、處理或利用。</li>
+              <li>請求刪除。</li>
+            </ol>
+            <p>如您欲行使上述權利，或對本公司個人資料之蒐集、處理及利用有任何疑問，請透過本公司網站所提供之聯絡管道與本公司聯繫。</p>
+            <p>本公司將依相關法令及實際情況辦理您的請求；如依法有不得提供、刪除或停止處理、利用之情形，本公司將依法處理。</p>
+
+            <h4>八、您不提供個人資料之影響</h4>
+            <p>您得自行決定是否提供個人資料。但如您拒絕提供完成特定服務所必要之個人資料，本公司可能無法提供您所要求之服務、回覆您的詢問、處理您的申請或完成相關作業。</p>
+
+            <h4>九、第三人個人資料</h4>
+            <p>如您於使用本公司網站或相關服務時提供他人之個人資料，請確認您已依法取得該當事人之適當授權或同意，並確保該等資料之提供及利用符合相關法令。</p>
+
+            <h4>十、本聲明之修訂</h4>
+            <p>本公司得因法令變更、業務需求、網站功能調整或其他必要原因，適時修訂本聲明。</p>
+            <p>修訂後之內容將公告於本公司網站適當位置，並自公告所載之生效日起生效。建議您定期查閱本聲明，以了解最新之個人資料保護措施。</p>
+
+            <h4>十一、聯絡方式</h4>
+            <p>如您對本聲明、個人資料之蒐集、處理及利用，或欲行使個人資料相關權利有任何疑問，請透過本公司網站所提供之聯絡方式與我們聯繫。</p>
+          </div>
+          <label class="privacy-check" id="privacy-check-label" for="f-privacy">
+            <input type="checkbox" id="f-privacy" />
+            <span>本人對於前述告知內容確已知悉、了解，且同意瑞昱半導體股份有限公司依上述個人資料保護暨隱私權聲明之範圍，蒐集、處理及利用本人之個人資料。</span>
+          </label>
+          <div class="err-msg" id="err-privacy">請先閱讀並勾選同意個資宣告，才能繼續填寫表單</div>
+        </div>
         <div class="field">
           <div class="field-label"><span class="label-cn">承攬商名稱</span><span class="label-en">Contractor Company</span><span class="req">＊</span></div>
           <input type="text" id="f-company" name="entry.1281327973" placeholder="請填寫公司全稱" />
@@ -306,7 +415,7 @@
         <div><div class="step-title-cn">訓練測驗</div><div class="step-title-en">Safety Knowledge Test</div></div>
       </div>
       <div class="step-body" id="body-3">
-        <div class="section-note">本測驗共 10 題，及格分數為 100 分。送出後將顯示您的測驗結果，若未達 100 分，煩請重新研讀教材。</div>
+        <div class="section-note">本測驗共 10 題，<strong>必須全部答對（100 分）才能送出</strong>。若有答錯，系統會標示答錯的題號，請重新研讀教材並修正答案後再送出。</div>
 
 <div class="quiz-q">
   <div class="q-num">Q 01 · 是非題</div>
@@ -431,7 +540,7 @@
 
 <footer>
   <p>© 2026 Realtek Semiconductor Corp. &nbsp;瑞昱半導體股份有限公司</p>
-  <p>Safety &amp; Health Department · 安全衛生部門</p>
+  <p>Occupational Safety and Health Center · 職業安全衛生中心</p>
 </footer>
 
 <script>
@@ -465,14 +574,36 @@
     const company = document.getElementById('f-company');
     const name    = document.getElementById('f-name');
     const idNum   = document.getElementById('f-id');
+    const privacy = document.getElementById('f-privacy');
     const eCompany = !company.value.trim();
     const eName    = !name.value.trim();
     const eId      = !ID_RE.test(idNum.value.trim());
+    const ePrivacy = !privacy.checked;
+    if (ePrivacy) {
+      // Fields are still locked — flag only the privacy gate, not empty inputs
+      document.getElementById('privacy-check-label').classList.add('err');
+      document.getElementById('err-privacy').classList.add('show');
+      document.getElementById('privacy-box').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return false;
+    }
     setFieldErr('f-company', 'err-company', eCompany);
     setFieldErr('f-name', 'err-name', eName);
     setFieldErr('f-id', 'err-id', eId);
     return !(eCompany || eName || eId);
   }
+
+  // The privacy notice gates the whole form: nothing is fillable until it is accepted
+  const PRIVACY_GATED = ['f-company', 'f-name', 'f-id'];
+  function applyPrivacyGate() {
+    const agreed = document.getElementById('f-privacy').checked;
+    PRIVACY_GATED.forEach(id => { document.getElementById(id).disabled = !agreed; });
+    if (agreed) {
+      document.getElementById('privacy-check-label').classList.remove('err');
+      document.getElementById('err-privacy').classList.remove('show');
+    }
+  }
+  document.getElementById('f-privacy').addEventListener('change', applyPrivacyGate);
+  applyPrivacyGate();
 
   // Clear a field's error state on input
   ['f-company','f-name','f-id'].forEach(id => {
@@ -521,6 +652,13 @@
     }
     return true;
   }
+
+  // Default the training date to today (local time, not UTC)
+  (function setTodayAsDefaultDate() {
+    const now = new Date();
+    const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    document.getElementById('f-date').value = local.toISOString().slice(0, 10);
+  })();
 
   // Clear date error when a date is picked
   document.getElementById('f-date').addEventListener('input', function () {
@@ -572,12 +710,31 @@
 
   // Pure function: grade by current selections. Exposed on window for console checks.
   window.gradeQuiz = function gradeQuiz() {
-    const wrong = [];
+    const wrong = [], wrongIds = [];
     QUIZ.forEach(q => {
-      if (getRadioValue(q.id) !== deobfuscate(q.enc)) wrong.push(q.label);
+      if (getRadioValue(q.id) !== deobfuscate(q.enc)) { wrong.push(q.label); wrongIds.push(q.id); }
     });
-    return { correct: QUIZ.length - wrong.length, total: QUIZ.length, wrong };
+    return { correct: QUIZ.length - wrong.length, total: QUIZ.length, wrong, wrongIds };
   };
+
+  // Flag the wrong questions in place so the respondent can redo them
+  function markWrongQuestions(wrongIds) {
+    document.querySelectorAll('.quiz-q.wrong').forEach(el => el.classList.remove('wrong'));
+    wrongIds.forEach(id => {
+      const q = document.querySelector(`input[name="${id}"]`).closest('.quiz-q');
+      if (q) q.classList.add('wrong');
+    });
+  }
+
+  // Clear a question's wrong flag as soon as its answer is changed
+  QUIZ.forEach(q => {
+    document.querySelectorAll(`input[name="${q.id}"]`).forEach(input => {
+      input.addEventListener('change', function () {
+        const box = this.closest('.quiz-q');
+        if (box) box.classList.remove('wrong');
+      });
+    });
+  });
 
   // Whether every quiz question has been answered
   function allQuizAnswered() {
@@ -599,6 +756,20 @@
       return;
     }
     gate.classList.remove('show');
+
+    // Hard gate: only a perfect score is submitted. Grading is client-side (see
+    // QUIZ/deobfuscate above); a failed attempt never reaches the Google Form.
+    const result = window.gradeQuiz();
+    if (result.wrong.length > 0) {
+      markWrongQuestions(result.wrongIds);
+      gate.innerHTML = '測驗未達 100 分（' + result.correct + ' / ' + result.total + ' 分，答錯：'
+        + result.wrong.join('、') + '）。<br>請重新研讀教材並修正下方標示的題目，全部答對才能送出。';
+      gate.classList.add('show');
+      const firstWrong = document.querySelector('.quiz-q.wrong');
+      if (firstWrong) firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    markWrongQuestions([]);
 
     const btn = document.getElementById('submitBtn');
     btn.textContent = '送出中⋯';
@@ -638,18 +809,11 @@
       return;
     }
 
-    // Grade and show the success screen
+    // Show the success screen. Only a 100 gets here, so the score is always perfect.
     gate.classList.remove('show');
-    const result = window.gradeQuiz();
     const rEl = document.getElementById('quizResult');
-    if (result.wrong.length === 0) {
-      rEl.innerHTML = '<div class="quiz-result-score">測驗結果：' + result.correct + ' / ' + result.total + ' 分</div>'
-        + '<div class="quiz-result-perfect">✓ 全部答對，恭喜通過測驗！</div>';
-    } else {
-      rEl.innerHTML = '<div class="quiz-result-score">測驗結果：' + result.correct + ' / ' + result.total + ' 分</div>'
-        + '<div class="quiz-result-wrong">答錯題號：' + result.wrong.join('、')
-        + '<br>未達 100 分，煩請重新研讀教材相關內容。</div>';
-    }
+    rEl.innerHTML = '<div class="quiz-result-score">測驗結果：' + result.correct + ' / ' + result.total + ' 分</div>'
+      + '<div class="quiz-result-perfect">✓ 全部答對，恭喜通過測驗！</div>';
 
     document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
     document.getElementById('successCard').classList.add('show');
