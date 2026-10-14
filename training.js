@@ -66,7 +66,7 @@
     } else if (item.kind === 'video') {
       if (!/^[\w-]{11}$/.test(item.youtubeId)) throw Object.assign(new Error(),{code:'form_misconfigured'});
       const wrap = document.createElement('div'); wrap.className = 'video-wrap';
-      const iframe = document.createElement('iframe'); iframe.src = 'https://www.youtube.com/embed/' + item.youtubeId; iframe.title = item.title || '訓練影片'; iframe.allowFullscreen = true; iframe.referrerPolicy = 'no-referrer'; wrap.append(iframe); box.append(wrap);
+      const iframe = document.createElement('iframe'); iframe.src = 'https://www.youtube.com/embed/' + item.youtubeId; iframe.title = item.title || '訓練影片'; iframe.allowFullscreen = true; iframe.referrerPolicy = 'strict-origin-when-cross-origin'; /* YouTube rejects embeds without a referrer (error 153); this sends only the site origin */ wrap.append(iframe); box.append(wrap);
       const help = document.createElement('p'); help.className = 'help'; help.textContent = '點 YouTube 字樣到 YouTube 網頁放大觀看'; box.append(help);
     }
     const error = document.createElement('p'); error.className = 'field-error'; error.id = 'error-' + item.id; box.append(error);
