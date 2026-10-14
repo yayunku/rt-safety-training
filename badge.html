@@ -1,88 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" />
-  <title>瑞昱數位承攬商識別證</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --page:#04354D; --text:#E9F2F8; --muted:#9BBACC; --line:rgba(255,255,255,0.16);
-      --red:#E06055; --surface:rgba(255,255,255,0.06);
-      --cn:'Microsoft JhengHei','PingFang TC','Noto Sans TC','Heiti TC',sans-serif;
-    }
-    body { background:var(--page); color:var(--text); font-family:var(--cn); line-height:1.7;
-      min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:28px 16px 40px; }
-    .badge-wrap { width:100%; max-width:340px; }
-    .badge-wrap svg { width:100%; height:auto; display:block;
-      filter:drop-shadow(0 10px 30px rgba(0,0,0,0.45)); border-radius:18px; }
-    .actions { display:flex; gap:10px; margin-top:20px; width:100%; max-width:340px; }
-    .actions button { flex:1; padding:11px 12px; border-radius:8px; border:1px solid var(--line);
-      background:var(--surface); color:var(--text); font-family:var(--cn); font-size:14px;
-      cursor:pointer; transition:background .15s; }
-    .actions button:hover { background:rgba(255,255,255,0.12); }
-    .hint { max-width:340px; margin-top:22px; padding-top:16px; border-top:1px solid var(--line);
-      font-size:12px; color:var(--muted); }
-    .hint strong { color:var(--text); font-weight:600; }
-    .error { max-width:340px; text-align:center; padding:40px 24px; border:1px solid rgba(224,96,85,0.4);
-      border-radius:14px; background:rgba(224,96,85,0.10); }
-    .error-icon { font-size:34px; color:var(--red); margin-bottom:14px; }
-    .error-title { font-size:18px; font-weight:700; color:var(--red); margin-bottom:10px; }
-    .error-body { font-size:14px; color:var(--muted); }
-    @media print {
-      body { background:#fff; padding:0; display:block; }
-      .actions, .hint { display:none !important; }
-      .badge-wrap { max-width:86mm; margin:0 auto; }
-      .badge-wrap svg { filter:none; }
-    }
-  </style>
-</head>
-<body>
-  <div id="app"></div>
-
-  <script src="badge.js"></script>
-  <script>
-    const app = document.getElementById('app');
-
-    function showError(message) {
-      app.innerHTML = '<div class="error"><div class="error-icon">⚠</div>'
-        + '<div class="error-title">識別證驗證失敗</div>'
-        + '<div class="error-body">' + message + '</div></div>';
-    }
-
-    function render() {
-      const data = RealtekBadge.readHash();
-      if (!data) {
-        showError('這個連結沒有識別證資料，或內容已被修改。<br>請重新完成線上安全衛生教育訓練，取得新的識別證。');
-        return;
-      }
-      const expired = RealtekBadge.statusOf(data) === 'expired';
-      app.innerHTML = '<div class="badge-wrap">'
-        + RealtekBadge.renderSVG(data, { mode: 'screen', url: location.href })
-        + '</div>'
-        + '<div class="actions">'
-        + '<button type="button" id="btn-png">下載圖片</button>'
-        + '<button type="button" id="btn-print">列印</button>'
-        + '</div>'
-        + '<div class="hint">' + (expired
-            ? '<strong>此識別證已過期。</strong>請重新完成線上安全衛生教育訓練。'
-            : '<strong>有效期限至 ' + data.e + '。</strong>入廠時請出示本頁面供查驗。')
-        + '<br>本識別證由線上教育訓練系統產生，證明持證人已完成該次教育訓練；保險證明與特殊作業證照仍依現場規定查核。</div>';
-
-      document.getElementById('btn-png').addEventListener('click', function () {
-        this.disabled = true;
-        RealtekBadge.downloadPNG(data, { url: location.href })
-          .catch(() => alert('圖片產生失敗，請改用瀏覽器的截圖或列印功能。'))
-          .then(() => { this.disabled = false; });
-      });
-      document.getElementById('btn-print').addEventListener('click', function () {
-        RealtekBadge.printBadge(data, { url: location.href });
-      });
-    }
-
-    render();
-    window.addEventListener('hashchange', render);
-  </script>
-</body>
-</html>
+<html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><title>電子訓練合格證明</title><link rel="stylesheet" href="style.css"></head><body class="badge-page"><header class="m-head">
+  <a class="brand" href="index.html" aria-label="Realtek 首頁"><img class="logo" src="assets/realtek-logo.png" alt="Realtek" width="770" height="160"></a>
+  <span class="sep" aria-hidden="true"></span>
+  <span class="site">承攬商安全衛生教育訓練</span>
+</header>
+<main id="app" class="badge-main"><div id="message" role="status">查驗中⋯</div><button id="retry" hidden>重新查驗</button><div id="certificate"></div></main><script src="config.js"></script>
+<script src="core.js"></script>
+<script src="badge.js"></script>
+<script src="common.js"></script><script src="verify.js"></script></body></html>

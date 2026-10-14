@@ -1,0 +1,229 @@
+<title>瑞昱訓練站樣式選擇</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: a review sheet — three labelled decision sections, each mock rendered at real size inside a plain browser frame. */
+:root{
+  --bg:#EEF2F6; --fg:#14202E; --muted:#556579; --line:#CCD5E0; --panel:#FFFFFF; --tag:#0078AF; --tag-ink:#FFFFFF;
+  --cn:'Noto Sans TC','Microsoft JhengHei','PingFang TC',sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10161E;--fg:#E4EAF1;--muted:#93A3B6;--line:#2C3846;--panel:#18212C;--tag:#3AA6DA;--tag-ink:#06131C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10161E;--fg:#E4EAF1;--muted:#93A3B6;--line:#2C3846;--panel:#18212C;--tag:#3AA6DA;--tag-ink:#06131C;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--cn);line-height:1.6;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.sheet{max-width:1120px;margin:0 auto;display:grid;gap:40px}
+.intro h1{font-size:24px;margin:0 0 6px;font-weight:900;text-wrap:balance}
+.intro p{margin:0;color:var(--muted);max-width:68ch}
+.intro code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--fg)}
+section{display:grid;gap:14px}
+section>h2{font-size:18px;margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+section>h2 small{font-size:13px;font-weight:400;color:var(--muted)}
+.opt{display:grid;gap:8px;min-width:0}
+.opt-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.opt-head b{background:var(--tag);color:var(--tag-ink);font-size:13px;letter-spacing:.06em;padding:2px 10px;border-radius:4px}
+.opt-head span{font-weight:700}
+.opt-head em{font-style:normal;color:var(--muted);font-size:13px}
+.frame{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#F4F7FB;min-width:0}
+.frame-bar{height:26px;background:#DDE3EA;display:flex;align-items:center;gap:6px;padding:0 10px}
+.frame-bar i{width:9px;height:9px;border-radius:50%;background:#B7C1CD;display:block}
+.row{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start}
+
+/* ===== mock site (fixed light palette: this is the real site's look) ===== */
+.m{--blue:#0078AF;--mint:#34EBB7;--mint-deep:#16B98C;--ink:#053D30;--slate:#2F3E50;--text:#0E1A2E;--text2:#4A607A;--border:#D5DDE9;
+  color:var(--text);font-family:var(--cn);font-size:14px;background:#F4F7FB}
+.logo{display:block;width:44px;height:34px;background:url("__LOGO__") center/contain no-repeat;flex:none}
+.m-head{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:10px 20px;min-height:56px;flex-wrap:wrap}
+.wm{color:var(--blue);font-weight:900;font-size:20px;letter-spacing:.01em;line-height:1}
+.m-head .sep{width:1px;height:20px;background:var(--border)}
+.m-head .site{color:var(--text2);font-size:14px;font-weight:500}
+.m-foot{border-top:1px solid var(--border);color:#7F92A9;font-size:12px;padding:10px 20px;text-align:center}
+.m-body{padding:24px 20px 28px;max-width:960px;margin:0 auto}
+.m-body h3{font-size:24px;font-weight:900;margin:0 0 4px;text-wrap:balance}
+.m-body .lead{color:var(--text2);margin:0 0 18px}
+
+/* A: three tiles with colour band */
+.a-grid{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.a-tile{background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.a-tile .band{padding:12px 16px;font-size:18px;font-weight:700;color:#fff;background:var(--blue)}
+.a-tile.s .band{background:var(--mint);color:var(--ink)}
+.a-tile.q .band{background:var(--slate)}
+.a-tile .desc{padding:12px 16px 4px;color:var(--text2);flex:1}
+.a-tile .go{padding:4px 16px 14px;font-weight:700;color:var(--blue)}
+.a-tile.s .go{color:#0A7A5B}
+.a-tile.q .go{color:var(--slate)}
+@media (max-width:767px){.a-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* B: one list panel */
+.b-panel{max-width:760px;background:#fff;border:1px solid var(--border);border-radius:6px}
+.b-row{display:grid;grid-template-columns:52px minmax(0,1fr) 20px;gap:14px;align-items:center;padding:14px 16px;text-decoration:none;color:inherit}
+.b-row+.b-row{border-top:1px solid var(--border)}
+.b-row .sq{width:52px;height:52px;border-radius:6px;display:grid;place-items:center;font-weight:900;font-size:16px;color:#fff;background:var(--blue)}
+.b-row.s .sq{background:var(--mint);color:var(--ink)}
+.b-row.q .sq{background:var(--slate)}
+.b-row strong{display:block;font-size:17px}
+.b-row small{color:var(--text2);font-size:13px}
+.b-row .chev{color:#9AAABD;font-size:20px}
+
+/* C: split, explanation left, actions right */
+.c-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.c-steps{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:s}
+.c-steps li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;align-items:start;counter-increment:s;color:var(--text2)}
+.c-steps li::before{content:counter(s);width:26px;height:26px;border-radius:50%;border:1.5px solid var(--blue);color:var(--blue);display:grid;place-items:center;font-weight:700;font-size:13px}
+.c-acts{display:grid;gap:12px}
+.c-btn{display:grid;gap:2px;padding:14px 18px;border-radius:6px;text-decoration:none;color:#fff;background:var(--blue)}
+.c-btn strong{font-size:18px}
+.c-btn small{font-size:13px;opacity:.9}
+.c-btn.s{background:var(--mint);color:var(--ink)}
+.c-btn.q{background:#fff;color:var(--slate);border:1.5px solid var(--slate)}
+@media (max-width:767px){.c-split{grid-template-columns:minmax(0,1fr);gap:18px}}
+
+/* header option 1 vs 2 */
+.h1-only .sep,.h1-only .site{display:none}
+
+/* ===== certificates ===== */
+.certs{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));align-items:end}
+.cert{width:100%;max-width:300px;border-radius:18px;padding:18px 16px 14px;font-family:var(--cn);color:#fff;
+  background:linear-gradient(160deg,#0A8AC6,#005E8A)}
+.cert h4{margin:0 0 12px;text-align:center;font-size:19px;font-weight:900;letter-spacing:.08em;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.35)}
+.cert .in{background:#E6EEF5;border-radius:12px;padding:10px 12px 12px;color:#0E1A2E}
+.cert .no{font-size:11px;text-align:center;color:#4A607A;margin-bottom:8px}
+.cert .top{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+.cert .ph{display:grid;gap:6px;justify-items:center}
+.cert .ph .logo{width:72px;height:64px;background-color:#C9D9E6;border-radius:8px;background-size:62px}
+.cert .pill{background:#1A7F4B;color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:1px 16px}
+.cert .qr{width:76px;height:76px;background:#fff;border-radius:8px;padding:5px}
+.cert .qr svg{width:100%;height:100%;display:block}
+.cert dl{margin:0;display:grid;gap:4px}
+.cert dt{font-size:10px;color:#4A607A}
+.cert dd{margin:0 0 2px;font-size:15px;font-weight:700;border-bottom:1px solid #A9BACB;padding-bottom:2px;font-variant-numeric:tabular-nums}
+.cert .note{font-size:11px;text-align:center;margin-top:10px;opacity:.95}
+/* S1 solid mint */
+.cert.s1{background:#34EBB7;color:#053D30}
+.cert.s1 h4{border-color:rgba(5,61,48,.3)}
+/* S2 mint gradient */
+.cert.s2{background:linear-gradient(160deg,#34EBB7,#16B98C);color:#053D30}
+.cert.s2 h4{border-color:rgba(5,61,48,.3)}
+/* S3 white card, mint band */
+.cert.s3{background:#fff;color:#053D30;border:1px solid #CFE3DC;padding-top:0;overflow:hidden}
+.cert.s3 h4{margin:0 -16px 12px;background:#34EBB7;padding:14px 0;border:0}
+.cert.s3 .in{background:#F1F7F5}
+.cert.s3 .note{color:#3D5A52}
+.cert.s1 .in,.cert.s2 .in{background:#F3FBF8}
+</style>
+
+<div class="sheet">
+  <header class="intro">
+    <h1>瑞昱訓練站樣式選擇</h1>
+    <p>每一區挑一個，跟我說代號就好，例如 <code>頂端 2、首頁 B、證明 S2</code>。畫面是實際尺寸的示意，縮窄視窗可以看手機版的排法。</p>
+  </header>
+
+  <section>
+    <h2>一、頂端列 <small>每一頁都會用</small></h2>
+    <div class="row">
+      <div class="opt">
+        <div class="opt-head"><b>頂端 1</b><span>logo＋Realtek</span></div>
+        <div class="frame"><div class="m"><div class="m-head h1-only"><span class="logo"></span><span class="wm">Realtek</span></div></div></div>
+      </div>
+      <div class="opt">
+        <div class="opt-head"><b>頂端 2</b><span>logo＋Realtek＋網站名稱</span></div>
+        <div class="frame"><div class="m"><div class="m-head"><span class="logo"></span><span class="wm">Realtek</span><span class="sep"></span><span class="site">承攬商安全衛生教育訓練</span></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>二、首頁版型 <small>內容相同，只換排法</small></h2>
+
+    <div class="opt">
+      <div class="opt-head"><b>首頁 A</b><span>三欄色帶卡</span><em>電腦三欄並排、手機直排；類型靠色帶分辨</em></div>
+      <div class="frame"><div class="frame-bar"><i></i><i></i><i></i></div><div class="m">
+        <div class="m-head"><span class="logo"></span><span class="wm">Realtek</span><span class="sep"></span><span class="site">承攬商安全衛生教育訓練</span></div>
+        <div class="m-body">
+          <h3>承攬商安全衛生教育訓練</h3>
+          <p class="lead">請依承攬作業類型選擇訓練；完成測驗即可取得電子訓練合格證明。</p>
+          <div class="a-grid">
+            <a class="a-tile" href="#a"><div class="band">工程發包</div><div class="desc">一般作業、高風險作業等</div><div class="go">開始訓練 →</div></a>
+            <a class="a-tile s" href="#a"><div class="band">勞務</div><div class="desc">保全、清潔、供膳、超商販售等</div><div class="go">開始訓練 →</div></a>
+            <a class="a-tile q" href="#a"><div class="band">查詢合格證明</div><div class="desc">以身分證字號及姓名查詢</div><div class="go">查詢 →</div></a>
+          </div>
+        </div>
+        <div class="m-foot">© 2026 Realtek Semiconductor Corp. 瑞昱半導體股份有限公司</div>
+      </div></div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-head"><b>首頁 B</b><span>單一清單</span><em>最緊湊，像公司內部系統入口；整列都可以點</em></div>
+      <div class="frame"><div class="frame-bar"><i></i><i></i><i></i></div><div class="m">
+        <div class="m-head"><span class="logo"></span><span class="wm">Realtek</span><span class="sep"></span><span class="site">承攬商安全衛生教育訓練</span></div>
+        <div class="m-body">
+          <h3>承攬商安全衛生教育訓練</h3>
+          <p class="lead">請依承攬作業類型選擇訓練；完成測驗即可取得電子訓練合格證明。</p>
+          <div class="b-panel">
+            <a class="b-row" href="#b"><span class="sq">工程</span><span><strong>工程發包</strong><small>一般作業、高風險作業等</small></span><span class="chev">›</span></a>
+            <a class="b-row s" href="#b"><span class="sq">勞務</span><span><strong>勞務</strong><small>保全、清潔、供膳、超商販售等</small></span><span class="chev">›</span></a>
+            <a class="b-row q" href="#b"><span class="sq">查詢</span><span><strong>查詢合格證明</strong><small>以身分證字號及姓名查詢</small></span><span class="chev">›</span></a>
+          </div>
+        </div>
+        <div class="m-foot">© 2026 Realtek Semiconductor Corp. 瑞昱半導體股份有限公司</div>
+      </div></div>
+    </div>
+
+    <div class="opt">
+      <div class="opt-head"><b>首頁 C</b><span>左說明、右按鈕</span><em>會多一段流程說明（3 步驟），廠商第一次來比較看得懂</em></div>
+      <div class="frame"><div class="frame-bar"><i></i><i></i><i></i></div><div class="m">
+        <div class="m-head"><span class="logo"></span><span class="wm">Realtek</span><span class="sep"></span><span class="site">承攬商安全衛生教育訓練</span></div>
+        <div class="m-body">
+          <div class="c-split">
+            <div>
+              <h3>承攬商安全衛生教育訓練</h3>
+              <p class="lead">每位入廠承攬商作業人員，皆須完成個人線上訓練與考試。</p>
+              <ol class="c-steps">
+                <li>同意個資提供同意書，填寫公司與個人資料</li>
+                <li>觀看訓練教材</li>
+                <li>測驗全部答對，取得電子訓練合格證明（有效 1 年）</li>
+              </ol>
+            </div>
+            <div class="c-acts">
+              <a class="c-btn" href="#c"><strong>工程發包</strong><small>一般作業、高風險作業等</small></a>
+              <a class="c-btn s" href="#c"><strong>勞務</strong><small>保全、清潔、供膳、超商販售等</small></a>
+              <a class="c-btn q" href="#c"><strong>查詢合格證明</strong><small>以身分證字號及姓名查詢</small></a>
+            </div>
+          </div>
+        </div>
+        <div class="m-foot">© 2026 Realtek Semiconductor Corp. 瑞昱半導體股份有限公司</div>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>三、勞務類證明配色 <small>主色 #34ebb7；亮底所以字改深綠黑色。最左邊是工程類對照，不會改</small></h2>
+    <div class="certs">
+      <div class="opt"><div class="opt-head"><b>對照</b><span>工程類（現行藍）</span></div>
+        <div class="cert" data-no="工程發包類 · RT-E-20261014-003"></div></div>
+      <div class="opt"><div class="opt-head"><b>證明 S1</b><span>整張薄荷綠</span></div>
+        <div class="cert s1" data-no="勞務類 · RT-S-20261014-002"></div></div>
+      <div class="opt"><div class="opt-head"><b>證明 S2</b><span>薄荷綠漸層</span><em>跟工程類的漸層質感一致</em></div>
+        <div class="cert s2" data-no="勞務類 · RT-S-20261014-002"></div></div>
+      <div class="opt"><div class="opt-head"><b>證明 S3</b><span>白卡＋綠色標題帶</span><em>最清爽、列印省墨</em></div>
+        <div class="cert s3" data-no="勞務類 · RT-S-20261014-002"></div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+// Decorative QR-like pattern (not a real code) so the certificate mock reads correctly.
+function fakeQR(seed){
+  const n=25,c=4;let s=seed,out='';
+  const rnd=()=>((s=(s*1103515245+12345)%2147483648)/2147483648);
+  const finder=(x,y)=>`<rect x="${x*c}" y="${y*c}" width="${7*c}" height="${7*c}" fill="#0E2A44"/><rect x="${(x+1)*c}" y="${(y+1)*c}" width="${5*c}" height="${5*c}" fill="#fff"/><rect x="${(x+2)*c}" y="${(y+2)*c}" width="${3*c}" height="${3*c}" fill="#0E2A44"/>`;
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){const inF=(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9);if(!inF&&rnd()>.52)out+=`<rect x="${x*c}" y="${y*c}" width="${c}" height="${c}" fill="#0E2A44"/>`;}
+  return `<svg viewBox="0 0 ${n*c} ${n*c}" aria-hidden="true">${out}${finder(0,0)}${finder(n-7,0)}${finder(0,n-7)}</svg>`;
+}
+document.querySelectorAll('.cert').forEach((el,i)=>{
+  el.innerHTML=`<h4>電子訓練合格證明</h4><div class="in"><div class="no">${el.dataset.no}</div>
+  <div class="top"><div class="ph"><span class="logo"></span><span class="pill">有效</span></div><div class="qr">${fakeQR(7+i*3)}</div></div>
+  <dl><dt>姓名 NAME:</dt><dd>王小明</dd><dt>身分證 ID NO:</dt><dd>A12****789</dd><dt>廠商名稱 COMPANY:</dt><dd>大成清潔股份有限公司</dd><dt>有效期限 VALID UNTIL:</dt><dd>2027-10-14</dd><dt>發證時間 ISSUED:</dt><dd>2026-10-14 21:10</dd></dl></div>
+  <div class="note">持證須知：須遵守瑞昱所制定之施工規範進行施工。</div>`;
+});
+</script>

@@ -1,0 +1,117 @@
+<title>瑞昱訓練站首頁橫幅</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: review sheet — the new header once, then three full-size landing mocks that differ only in how the banner image is used. */
+:root{
+  --bg:#EEF2F6; --fg:#14202E; --muted:#556579; --line:#CCD5E0; --panel:#FFFFFF; --tag:#0078AF; --tag-ink:#FFFFFF; --warn:#9A5B00;
+  --cn:'Noto Sans TC','Microsoft JhengHei','PingFang TC',sans-serif;
+  --logo:url("__LOGO__"); --hero:url("__HERO2__");
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10161E;--fg:#E4EAF1;--muted:#93A3B6;--line:#2C3846;--panel:#18212C;--tag:#3AA6DA;--tag-ink:#06131C;--warn:#E7B062;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10161E;--fg:#E4EAF1;--muted:#93A3B6;--line:#2C3846;--panel:#18212C;--tag:#3AA6DA;--tag-ink:#06131C;--warn:#E7B062;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--cn);line-height:1.6;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.sheet{max-width:1180px;margin:0 auto;display:grid;gap:36px}
+.intro h1{font-size:24px;margin:0 0 6px;font-weight:900;text-wrap:balance}
+.intro p{margin:0 0 4px;color:var(--muted);max-width:72ch}
+.intro code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--fg)}
+.intro .warn{color:var(--warn)}
+section{display:grid;gap:12px}
+section>h2{font-size:18px;margin:0}
+.opt{display:grid;gap:8px;min-width:0}
+.opt-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.opt-head b{background:var(--tag);color:var(--tag-ink);font-size:13px;letter-spacing:.06em;padding:2px 10px;border-radius:4px}
+.opt-head span{font-weight:700}
+.opt-head em{font-style:normal;color:var(--muted);font-size:13px}
+.frame{border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:0}
+.frame-bar{height:26px;background:#DDE3EA;display:flex;align-items:center;gap:6px;padding:0 10px}
+.frame-bar i{width:9px;height:9px;border-radius:50%;background:#B7C1CD;display:block}
+
+/* ===== mock site: fixed light palette, this is the real site's look ===== */
+.m{--blue:#0078AF;--mint:#34EBB7;--ink:#053D30;--slate:#2F3E50;--text:#0E1A2E;--text2:#4A607A;--border:#D5DDE9;--red:#C0392B;
+  color:var(--text);font-family:var(--cn);font-size:14px;background:#F4F7FB}
+.m-head{background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:10px 20px;min-height:56px;flex-wrap:wrap}
+.brand{display:block;height:30px;aspect-ratio:770/160;max-width:100%;background:var(--logo) left center/contain no-repeat;flex:none}
+.m-head .sep{width:1px;height:22px;background:var(--border)}
+.m-head .site{color:var(--text2);font-size:14px;font-weight:500}
+.m-foot{border-top:1px solid var(--border);color:#5E7189;font-size:12px;padding:10px 20px;text-align:center}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 28px}
+h3.t{font-size:24px;font-weight:900;margin:0 0 4px;text-wrap:balance}
+.lead{color:var(--text2);margin:0 0 16px}
+.steps{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;align-items:start;counter-increment:s;color:var(--text2)}
+.steps li::before{content:counter(s);width:26px;height:26px;border-radius:50%;border:1.5px solid var(--blue);color:var(--blue);display:grid;place-items:center;font-weight:700;font-size:13px}
+.acts{display:grid;gap:12px}
+.btn{display:grid;gap:2px;padding:14px 18px;border-radius:6px;text-decoration:none;color:#fff;background:var(--blue)}
+.btn strong{font-size:18px}
+.btn small{font-size:13px}
+.btn.s{background:var(--mint);color:var(--ink)}
+.btn.q{background:#fff;color:var(--slate);border:1.5px solid var(--slate)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:767px){.split{grid-template-columns:minmax(0,1fr);gap:18px}}
+
+/* A: full-bleed banner, title on the image */
+.a-banner{position:relative;height:260px;background:var(--hero) center 32%/cover no-repeat #0B1F3A}
+.a-banner::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,20,40,.86) 0%,rgba(6,20,40,.62) 42%,rgba(6,20,40,0) 75%)}
+.a-banner .inner{position:relative;max-width:960px;height:100%;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;justify-content:center;gap:6px;color:#fff}
+.a-banner h3{font-size:28px;font-weight:900;margin:0;text-wrap:balance}
+.a-banner p{margin:0;color:#DCE8F5;max-width:30em}
+.a-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+@media (max-width:767px){.a-banner{height:220px}.a-row{grid-template-columns:minmax(0,1fr)}}
+
+/* B: banner card inside the content width, layout C below */
+.b-banner{height:200px;border-radius:8px;background:var(--hero) center 34%/cover no-repeat #0B1F3A;margin-bottom:22px}
+@media (max-width:767px){.b-banner{height:150px}}
+
+/* C: image beside the text, buttons in a row underneath */
+.c-img{width:100%;aspect-ratio:668/376;border-radius:8px;background:var(--hero) center/cover no-repeat #0B1F3A;max-width:100%}
+.c-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+@media (max-width:767px){.c-row{grid-template-columns:minmax(0,1fr)}}
+
+/* A1: title on the image's dark left edge, image shifted right so the chip stays visible */
+.a1-banner{position:relative;height:300px;background:var(--hero) 70% 34%/cover no-repeat #0B1F3A}
+.a1-banner::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,20,40,.9) 0%,rgba(6,20,40,.7) 30%,rgba(6,20,40,0) 55%)}
+.a1-banner .inner{position:relative;max-width:960px;height:100%;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;justify-content:center;gap:6px;color:#fff}
+.a1-banner h3{font-size:28px;font-weight:900;margin:0;max-width:11em;text-wrap:balance}
+.a1-banner p{margin:0;color:#DCE8F5;max-width:18em}
+/* A2: image only (keeps its own slogan), title block right below */
+.a2-banner{height:300px;background:var(--hero) center 34%/cover no-repeat #0B1F3A}
+@media (max-width:767px){.a1-banner,.a2-banner{height:200px}.a1-banner::before{background:linear-gradient(0deg,rgba(6,20,40,.9) 0%,rgba(6,20,40,.4) 60%,rgba(6,20,40,0) 100%)}.a1-banner .inner{justify-content:flex-end;padding-bottom:16px}.a1-banner h3{font-size:22px}}
+</style>
+
+<div class="sheet">
+  <header class="intro">
+    <h1>瑞昱訓練站首頁橫幅</h1>
+    <p>用新圖（1200×630）做的兩種全幅橫幅，跟我說代號，例如 <code>A2</code>。新圖放到 1280 寬只放大約 1.07 倍，清晰度沒問題。</p>
+    <p class="warn">新圖右邊本身就寫著「Realtek Powering the AI World」，所以我們的標題不能再壓在右邊。</p>
+  </header>
+
+  <section><div class="opt">
+      <div class="opt-head"><b>A1</b><span>標題壓在左側暗處</span><em>圖往右移，晶片和右邊的字樣都還看得到；手機上標題改到圖的下緣</em></div>
+      <div class="frame"><div class="frame-bar"><i></i><i></i><i></i></div><div class="m"><div class="m-head"><span class="brand" role="img" aria-label="Realtek"></span><span class="sep"></span><span class="site">承攬商安全衛生教育訓練</span></div>
+        <div class="a1-banner"><div class="inner"><h3>承攬商安全衛生教育訓練</h3><p>每位入廠承攬商作業人員，皆須完成個人線上訓練與考試。</p></div></div>
+        <div class="wrap"><ol class="steps">
+            <li>同意個資提供同意書，填寫公司與個人資料</li>
+            <li>觀看訓練教材</li>
+            <li>測驗全部答對，取得電子訓練合格證明（有效 1 年）</li>
+          </ol><div class="a-row">
+            <a class="btn" href="#x"><strong>工程發包</strong><small>一般作業、高風險作業等</small></a>
+            <a class="btn s" href="#x"><strong>勞務</strong><small>保全、清潔、供膳、超商販售等</small></a>
+            <a class="btn q" href="#x"><strong>查詢合格證明</strong><small>以身分證字號及姓名查詢</small></a>
+          </div></div><div class="m-foot">© 2026 Realtek Semiconductor Corp. 瑞昱半導體股份有限公司</div></div></div></div></section>
+<section><div class="opt">
+      <div class="opt-head"><b>A2</b><span>圖不壓字，標題放在圖下方</span><em>圖完整呈現（含原本的字樣），標題、流程、按鈕接在下面</em></div>
+      <div class="frame"><div class="frame-bar"><i></i><i></i><i></i></div><div class="m"><div class="m-head"><span class="brand" role="img" aria-label="Realtek"></span><span class="sep"></span><span class="site">承攬商安全衛生教育訓練</span></div>
+        <div class="a2-banner" role="img" aria-label="Realtek Powering the AI World 主視覺"></div>
+        <div class="wrap"><h3 class="t">承攬商安全衛生教育訓練</h3><p class="lead">每位入廠承攬商作業人員，皆須完成個人線上訓練與考試。</p><ol class="steps">
+            <li>同意個資提供同意書，填寫公司與個人資料</li>
+            <li>觀看訓練教材</li>
+            <li>測驗全部答對，取得電子訓練合格證明（有效 1 年）</li>
+          </ol><div class="a-row">
+            <a class="btn" href="#x"><strong>工程發包</strong><small>一般作業、高風險作業等</small></a>
+            <a class="btn s" href="#x"><strong>勞務</strong><small>保全、清潔、供膳、超商販售等</small></a>
+            <a class="btn q" href="#x"><strong>查詢合格證明</strong><small>以身分證字號及姓名查詢</small></a>
+          </div></div><div class="m-foot">© 2026 Realtek Semiconductor Corp. 瑞昱半導體股份有限公司</div></div></div></div></section>
+</div>

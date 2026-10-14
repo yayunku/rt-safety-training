@@ -1,59 +1,63 @@
-# CLAUDE.md
+# Contractor safety training
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Read `docs/superpowers/specs/2026-10-14-two-forms-apps-script-backend-design.md` before changing form handling, consent, certificates, or lookup. Its decision table is authoritative. For presentation, follow the owner-selected header 2, landing C and certificate S3 in `docs/superpowers/specs/assets/2026-10-14-style-picker.html`; both certificate types use S3, superseding the older gradient/purple choices. The August badge spec explains the retained SVG, QR, PNG and print design; the October spec supersedes its data storage and expiry rules.
 
-## What this repo is
+## Files and runtime
 
-Three static files that reimplement Realtek's (瑞昱半導體) contractor safety training Google Form as a standalone, brightly-styled web page. Contractors accept a privacy notice, fill in their details, watch 5 embedded YouTube training videos, take a quiz they must ace, and submit — all without a database or backend. On success the page issues a digital contractor badge as a QR code. There is no build step, no package manager, and no test framework.
+The GitHub Pages frontend has no build step, framework, runtime npm dependencies, or external scripts. Serve these files together in one directory:
 
-```
-index.html   the 3-step form wizard + success screen
-badge.html   the digital contractor badge, opened by scanning the QR
-badge.js     badge rendering, QR generation, payload codec — shared by both pages
-```
+- `index.html`: landing links for engineering (`E`), service (`S`), and lookup.
+- `training.html`, `training.js`: API-driven sections, consent and video declaration gates, validation, quiz error placement, and issued certificate.
+- `lookup.html`, `lookup.js`: ID and name lookup, showing the latest certificate per type including revoked/expired records.
+- `badge.html`, `verify.js`: read `#c=<certNo>&t=<token>` and fetch current status; no personal data in the URL.
+- `badge.js`: retained vendored MIT QR generator and logo, SVG certificate, PNG export, print. Both types use the owner-selected S3 white card with a tinted panel: engineering has a `#0078AF` band with white text, service a `#34EBB7` band with `#053D30` text. SVG dimensions are 300 × 540 and PNG export is 600 × 1080. Export/print omit the valid status pill and retain expired/revoked status.
+- `common.js`: JSON API transport, Chinese errors, certificate presentation.
+- `core.js`: pure normalization, validation and certificate helpers. This is an exact checked-in copy of `apps-script/Core.js`, allowing a flat static directory and an independently pushable GAS directory. Edit `apps-script/Core.js`, copy it to `core.js`, and run tests; byte equality is tested. This does not require a production build.
+- `consent.js`: Appendix A as plain text, preserving its line breaks. Unit tests compare it against the read-only design document; E2E compares the rendered text against this constant.
+- `style.css`: original wizard design with responsive additions and system fonts.
+- `config.js`: only `API_URL`, initially an explicit placeholder. Replace it with the deployed Apps Script `/exec` URL. The pages display `尚未設定後端` until configured.
 
-All three must sit in the same directory; the badge URL is resolved relative to the current page. Deployment target is GitHub Pages (plus a copy on the company's internal web server).
+`apps-script/Core.js` has no GAS globals. HMAC computation is an injected function; formatting and messages are pure. `apps-script/Server.js` owns all service calls, HTTP entry points, setup, and cache clearing. No form answers or HMAC secret are embedded in the static files.
 
-## Commands
+## API and persistence
 
-There is nothing to build or install. To preview locally:
+All responses are JSON: `{ok:true,...}` or `{ok:false,error,...}`. GET supports `form&type=E|S` and `verify&cert=...&token=...`. POST supports `{action:"submit",type,answers}` and `{action:"lookup",idNo,name}` using `text/plain;charset=utf-8` to avoid preflight. IDs and names are sent only in POST bodies. The frontend shows success only after a successful response with a certificate. Apps Script reserves query names `c` and `sid`; the transport removes them even from configured URLs. `verify.js` maps the unchanged badge fragment `c`/`t` to API parameters `cert`/`token`. Deploy the matching frontend and backend together; old browser tabs need a reload.
 
-```bash
-python3 -m http.server 8000   # then open http://localhost:8000/index.html
-```
+The form endpoint caches an allowlisted public structure under `form:E|S`; a separate server-only model with the answer key is stored under `form-private:E|S`. Both use a 7200-second TTL and check the configured form edit ID before reuse. Only allowlisted public fields can leave the form endpoint, even on a cache hit. Submit grades from the private cache, validates all required roles, consent, ID, tax ID, watch date and gates, then compares all graded choices. A private cache miss reads FormApp without fetching video IDs. Successful submission obtains items in one `getItems()` call and maps them by ID; cached source types avoid repeated type/getter calls. A cold submission reuses the items already fetched for its model. Under a script lock it submits a FormApp response and writes the registry row. Sequence numbers are per Taipei date and type; 999 is the maximum representable three-digit sequence and further issuance returns `sequence_exhausted`. Expiry is issue date plus one year, valid through that date; leap day follows the previous badge's JS rollover convention.
 
-There is no linter or automated test suite. Verification is scripted ad hoc with headless Chromium (see the badge section below) or manual: open the page, walk through the flow, and (when touching Google Form submission logic) confirm real submissions land correctly in the linked Google Sheet, then delete the test row.
+The registry retains masked ID and an HMAC lookup hash, not full ID. Google Form responses retain submitted identity fields as required by the design. The registry `作廢` checkbox takes precedence over expiry. Lookup returns each type's latest record without filtering its status. Five failed lookups for the normalized ID's keyed hash block lookup until fewer than five failures remain in the rolling 15-minute window. Failure timestamps are authoritative Script Properties under `lookupfail:<keyed ID hash>`, read and written under the script lock; cache eviction cannot reset a lockout. Each unblocked lookup scans properties once, removes expired failure keys/timestamps, and reserves space for a potential failure before checking identity. A conservative 200 KiB budget (UTF-8 JSON size of all properties, including overhead) returns `busy` rather than evicting active lockouts or allowing uncounted guesses. Property read/write quotas and the scan can limit throughput during flooding. Keep the registry sheet name (`登記表`) and header order intact.
 
-## Architecture
+Form and registry writes cannot be a cross-service transaction: a registry failure after FormApp accepts a response returns an error and can leave a form-only submission. A lost response after both writes can leave a valid certificate despite a client network error. The error message advises lookup before retrying; there is no idempotency key in this API.
 
-**The core trick: this page is a client for someone else's Google Form.** It does not own the data store — a real Google Form (and its linked Google Sheet) is the backend. The page reimplements the form's fields in custom HTML/CSS, then on submit does:
+VideoItem has no URL getter in the official reference. The backend fetches `form.getPublishedUrl()` and parses JSON from `FB_PUBLIC_LOAD_DATA_`, mapping type 12 items by item ID to `item[6][3]`. This public-page representation is undocumented and can change; missing/malformed video data fails with `form_misconfigured`. Image layout items supply the subtitle, without transmitting images. Unsupported input types, ambiguous/missing identity roles, non-choice graded items, or free-text Other choices fail closed instead of silently dropping data. Real forms must use the supported text/date/radio/checkbox and layout items described in the spec.
 
-```js
-fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
-```
+## Apps Script configuration
 
-`FORM_ENDPOINT` is the target Google Form's public `.../formResponse` URL, and `data` is a `URLSearchParams` (sent as `application/x-www-form-urlencoded`) keyed by `entry.<id>` — one numeric ID per question, taken directly from the live Google Form. This only works if:
+Work with test copies owned by the Apps Script owner account until the owner switches to production. Set these Script Properties:
 
-- Every `entry.<id>` name in this file's inputs matches the real form's question IDs exactly. These IDs are **not derivable from the code** — they come from inspecting the real form's HTML (its `FB_PUBLIC_LOAD_DATA_` embedded JSON has the authoritative field list, or view page source of the live form).
-- The form is **multi-page** (基本資料 / 教材 / 測驗 sections), so the POST must include `pageHistory=0,1,2` (and `fvv=1`). Without them, Google silently drops every field on pages after the first (all the radio answers) while still returning HTTP 200 — this actually happened once; see the spec below for how it was diagnosed. `FormData`/multipart submits also fail this way; use `URLSearchParams`.
-- The target Google Form does **not** require the respondent to sign in (e.g. "Verified" email collection forces server-side auth and makes anonymous `formResponse` POSTs fail with HTTP 401 — this actually happened once; see the spec below for how it was diagnosed and fixed by switching the form's email-collection setting to "Do not collect" on a duplicate of the form).
-- `mode: 'no-cors'` means the JS can never read the real HTTP status of the submission — the fetch always "succeeds" from the page's point of view even if the backend rejected it. Any correctness check (required fields, quiz pass/fail) must happen client-side *before* the POST; there is no server response to react to.
+| Property | Value |
+| --- | --- |
+| `FORM_ID_E` | Engineering form's **edit** ID |
+| `FORM_ID_S` | Service form's **edit** ID |
+| `REGISTRY_SHEET_ID` | Registry spreadsheet ID, created by setup when absent |
+| `HMAC_SECRET` | Persistent secret, created by setup when absent |
 
-**Only a perfect quiz score is ever submitted.** The submit handler grades client-side first and returns early when anything is wrong — it flags the wrong questions in place and never sends the POST. Every row that reaches the Sheet is therefore 100 / 100. Step 1 has a second hard gate: the privacy-notice checkbox, which keeps the three inputs `disabled` until it is accepted.
+The deploying account must be an editor of both forms. Run `setup()` manually in the Apps Script editor; it can be rerun without replacing existing properties or registry data. It creates the registry headers and revoke checkboxes when creating a registry, and installs an hourly time-driven trigger for `warmFormCache()` only if that handler already has no clock trigger. Run setup as the same deploying owner: trigger enumeration is user-scoped, so running it under a different account can create an additional trigger. After granting the new trigger scope, run `warmFormCache()` manually for immediate prewarming; setup itself only schedules it. Do not rotate `HMAC_SECRET` casually: existing lookup hashes and certificate tokens depend on it.
 
-**Quiz grading is duplicated: Google grades server-side, the page grades client-side.** Google *does* auto-grade the answers submitted by a bypassing `formResponse` POST — the score shows up in the linked response Sheet's 「分數」 column (e.g. `100 / 100`), keyed by the identity fields the form collects (company/name/ID), so per-person scores are available there without collecting email. But `mode: 'no-cors'` means the page can never read that score back, so to show the respondent their result and "which questions you got wrong" *on the page immediately*, the correct answers must also live in this page's JS (mapped by `entry.<id>`). There is no way to fetch correct answers from the public form. The answers are **not stored in plaintext**: each is salted XOR+base64 obfuscated (`enc` in the `QUIZ` array, decoded by `deobfuscate()`) so they aren't readable from view-source at a glance. A per-question random salt means identical answers produce different ciphertext, so you can't even tell which questions share an answer. This is casual concealment only — a client-side quiz can never keep answers truly secret; it just stops a contractor from reading them off the page source.
+`apps-script/appsscript.json` uses V8, Asia/Taipei, deployment-owner execution and anonymous access. Its OAuth scopes are Forms (read plus submit), Spreadsheets (registry creation/read/write), external request (video fallback), and `script.scriptapp` for installing/enumerating triggers. The deploying owner must reauthorize the added scope before running setup. References: [ScriptApp](https://developers.google.com/apps-script/reference/script/script-app) and [ClockTriggerBuilder](https://developers.google.com/apps-script/reference/script/clock-trigger-builder).
 
-**The digital badge has no backend either — the URL *is* the badge.** `badge.js` packs the badge fields into the URL fragment: `badge.html#d=<base64url(JSON)>.<8-char FNV-1a checksum>`. A fragment is never sent to the server, so no PII lands in GitHub Pages' logs. Consequences worth knowing before changing anything here:
+For a future authorized clasp push, work from `apps-script/` and copy `.clasp.json.example` to an ignored `.clasp.json`, then set the script ID; `rootDir: "."` refers to that directory. This repository does not contain a real clasp configuration. Do not run clasp, deploy, commit, push, or contact live forms as part of an offline implementation/test run.
 
-- The checksum (`KEY` in `badge.js`) is casual tamper detection, exactly like the quiz answer obfuscation. Anyone reading the file can mint a valid URL. Real anti-forgery needs a backend issuing/verifying API — out of scope, see the spec.
-- Only the **masked** ID (`A12****789`) goes into the payload; the full number exists only in the Google Sheet.
-- Expiry is training date + 3 years, and both the issue timestamp and the "today" used for the expiry comparison are computed at **UTC+8 regardless of device timezone**.
-- The badge is one SVG string used three ways (screen, PNG export, print). `mode: 'export'` deliberately omits the green 有效 pill — a saved PNG can't know it expired — but keeps the red 已過期 stamp, which can never become wrong.
-- The QR generator is vendored (minified, MIT, Kazuhiko Arase) at the top of `badge.js`. Never swap it for an online QR service: that would ship contractor names to a third party and break air-gapped internal hosting.
-- Verification uses headless Chromium via `playwright-core` (browsers already in `~/.cache/ms-playwright`), including decoding the rendered QR with `jsqr` to prove it scans back to the exact URL. Always route `**/docs.google.com/**` to a stub so test runs never reach the real form.
+To switch test → production, change `FORM_ID_E` and `FORM_ID_S` to the production forms' edit IDs (kept by the owner, deliberately not stored in this public repo), then run `clearFormCache()`. It clears both public and private caches, then synchronously rebuilds both types. `warmFormCache()` also rebuilds both models for E and S regardless of cache hits. It attempts the other type even if one fails, then reports a safe error; a failed normal warm leaves any previous cache usable until expiry. The form-ID-aware caches avoid using a previous form's model after a property switch. Preserve the production registry and secret; do not mix a disposable test registry into production without the owner's decision.
 
-**Design docs**: substantive rebuilds/redesigns of this page go through a spec-first process — see `docs/superpowers/specs/` for the design rationale, the current field/entry-ID mapping, and the reasoning behind submission-mechanism decisions. Check there before assuming why something is built a certain way.
+Form edits, including answer-key changes, can remain cached until the next successful hourly warm or two-hour expiry. Run `clearFormCache()` after editing. Concurrent cache rebuilds are not serialized; avoid editing forms during a rebuild and rerun clear/warm if a rebuild was already in flight. Public and private entries may be evicted independently, so an already-open page can disagree with a newer grading model; reload after edits. CacheService may evict before TTL, and models at or above the conservative 95,000-byte cache threshold run uncached. A trigger failure, missing authorization, or quota limit can restore cold-load latency. Warm operations consume FormApp, UrlFetch and trigger runtime quotas; one warm can partially succeed. Logs identify only the failed type, not model contents.
 
-## Distribution model
+The loading message warns that first load may need 15 seconds. Submit remains disabled while awaiting the API and displays `送出中，約需 10–20 秒，請勿關閉頁面`. These are estimates, not timeouts or guaranteed performance; FormApp submission, registry I/O and lock contention remain. This guard prevents double submission within the page, not retries after a lost response.
 
-The three files are handed to the company's internal IT team to host on an internal web server, and are also served from GitHub Pages out of the repo root. There is no CI/CD or hosting automation in this repo. IT does not need to configure anything beyond serving the static files in one directory — no database, no environment variables, no backend service. Dropping `badge.html` or `badge.js` breaks the badge QR while the form itself keeps working, so check for all three when handing off.
+## Verification
+
+Use Node 22+, `npm ci`, then `npm test` (unit and Chromium E2E). Dependencies are development-only. `npm run test:unit` and `npm run test:e2e` run the suites separately. The test runner disables process isolation so unit results remain visible in restricted environments.
+
+E2E uses installed Chromium under `~/.cache/ms-playwright`; override its executable with `CHROMIUM_PATH` if needed. Static files are fulfilled through `page.route` at a synthetic origin, so no local HTTP listener is needed. API responses are stubbed, Google Forms and Apps Script URLs are explicitly blocked, and every other external request (including video embeds) is aborted. Tests never call live Google services. E2E covers both training types, gates, quiz corrections, QR decoding with jsqr, PNG/print, statuses, lookup, errors, URL privacy, exact consent, and 375px layout. A sandbox that prohibits Chromium's socket operations cannot run E2E; a browser startup failure is not a passing test.
+
+For interactive local preview, use `python3 -m http.server 8000`. The default API placeholder prevents accidental real submissions. Live OAuth, public-page video parsing, cross-origin redirects, and actual FormApp/Sheets writes still require an owner-authorized test deployment on the form copies; VM/API stubs cannot validate them.

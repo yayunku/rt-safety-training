@@ -1,0 +1,10 @@
+{
+  "name": "rt-safety-training",
+  "private": true,
+  "scripts": {
+    "test": "node --test --experimental-test-isolation=none tests/*.test.js && node tests/e2e.cjs",
+    "test:unit": "node --test --experimental-test-isolation=none tests/*.test.js",
+    "test:e2e": "node tests/e2e.cjs"
+  },
+  "devDependencies": {"playwright-core": "1.61.1", "jsqr": "1.4.0"}
+}
