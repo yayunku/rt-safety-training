@@ -194,7 +194,11 @@ function submit_(type, answers) {
     const row = {certNo,type,company:f.company,name:f.name,maskedId:TrainingCore.maskId(f.nationalId),issuedAt:TrainingCore.taipeiDateTime(now),expiresOn:TrainingCore.expiryOf(TrainingCore.taipeiDate(now)),revoked:false};
     const hash = TrainingCore.lookupHash(secret,f.nationalId,f.name,hmac_);
     const submitted = response.submit();
-    const rowNo = sheet.getLastRow() + 1;
+    // Pre-filled revoke checkboxes count as content for getLastRow(), so append after the last certificate number instead.
+    const certCells = sheet.getRange(1, 1, Math.max(sheet.getLastRow(), 1), 1).getValues();
+    let rowNo = certCells.length;
+    while (rowNo > 1 && !certCells[rowNo - 1][0]) rowNo--;
+    rowNo += 1;
     if (rowNo > sheet.getMaxRows()) sheet.insertRowsAfter(sheet.getMaxRows(), 1);
     // Plain text formatting preserves leading zeros and prevents user values becoming formulas.
     const text = value => String(value).startsWith('=') ? "'" + value : String(value);

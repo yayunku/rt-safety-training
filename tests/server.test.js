@@ -195,6 +195,15 @@ test('property capacity fails closed before identity lookup and preserves active
   h.state.props[lockedKey]=before[lockedKey];
   assert.deepEqual(h.state.props,before);assert.equal(h.state.locked,false);
 });
+test('submit appends after the last certificate, not after pre-filled revoke checkboxes',()=>{
+  const h=harness();h.ctx.setup();
+  for (let r=1;r<1000;r++) {h.state.rows[r] ||= [];h.state.rows[r][10]=false;}
+  assert.equal(h.post({action:'submit',type:'E',answers}).ok,true);
+  assert.match(String(h.state.rows[1][0]),/^RT-E-\d{8}-001$/);
+  assert.equal(h.post({action:'submit',type:'S',answers}).ok,true);
+  assert.match(String(h.state.rows[2][0]),/^RT-S-\d{8}-001$/);
+  assert.equal(h.state.rows[1000],undefined);
+});
 test('registry failure after form submit never returns success or logs personal data',()=>{
   const h=harness();h.ctx.setup();h.state.failWrite=true;
   assert.deepEqual(h.post({action:'submit',type:'E',answers}),{ok:false,error:'server_error'});
